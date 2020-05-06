@@ -9,14 +9,12 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    @yield('css')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -72,9 +70,64 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+        @if (in_array(request()->path(), ['login', 'register', 'password/email', 'password/reset']))
+            <main class="container py-4">
+                @yield('content')
+            </main>
+        @else
+            <main class="py-4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            @auth
+                            <a href="{{route('posts.create')}}" style="width: 100%;" class="btn btn-info my-2 text-white">Create Event</a>
+                            @else
+                            <a href="{{route('login')}}" style="width: 100%;" class="btn btn-info my-2 text-white">Sign in to add Event</a>
+                            @endauth
+
+                            <div class="card">
+                                <div class="card-header">
+                                    MENU
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <a href="{{ route('posts.index')}}">Posts</a>
+                                        </li>
+                                        @if (auth()->user()->isAdmin())
+                                            <li class="list-group-item">
+                                                <a href={{ route('users.index') }}>
+                                                    Users
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a href="{{ route('categories.index')}}">
+                                                    Categories
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a href="{{ route('tags.index')}}">
+                                                    Tags
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @foreach ($categories as $category)
+                                            <li class="list-group-item">{{ $category->name }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            @yield('content')
+                        </div>
+                    </div>
+                </div>
+            </main>
+        @endif
     </div>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js')}}"></script>
+    @yield('scripts')
 </body>
 </html>
