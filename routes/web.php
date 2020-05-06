@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Dashboard\PostsController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +21,22 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [PostsController::class, 'index'])->name('dashboard');
+    Route::get('dashboard/posts/{post}', [PostsController::class, 'show'])->name('dashboard.show');
+    Route::get('dashboard/categories/{category}', [PostsController::class, 'category'])->name('dashboard.category');
+    Route::get('dashboard/tags/{tag}', [PostsController::class, 'tag'])->name('dashboard.tag');
+    Route::resource('categories', 'CategoriesController');
+    Route::resource('tags', 'TagsController');
+    Route::resource('posts', 'PostsController');
+    Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');
+    Route::put('restore-posts/{post}', 'PostsController@restore')->name('restore-posts');
+    Route::get('users/profile', 'UsersController@edit')->name('users.edit-profile');
+    Route::put('users/profile', 'UsersController@update')->name('users.update-profile');
+});
+
+Route::middleware(['auth','verifyIsAdmin'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('users', 'UsersController@index')->name('users.index');
+    Route::post('users/{user}/make-admin', 'UsersController@makeAdmin')->name('users.make-admin');
+});
