@@ -74,6 +74,16 @@
                         Admin Panel
                     </a>
                 @endif
+                @if (auth()->user()->isSuperAdmin())
+                    <a class="dropdown-item" href="{{ route('home') }}">
+                        Admin Panel
+                    </a>
+                @endif
+                @if (auth()->user()->isWriter())
+                    <a class="dropdown-item" href="{{ route('home') }}">
+                        Admin Panel
+                    </a>
+                @endif
                 <a class="dropdown-item" href="{{ route('users.edit-profile') }}">
                     My Profile
                 </a>

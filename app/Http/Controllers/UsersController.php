@@ -13,11 +13,52 @@ class UsersController extends Controller
         return view('users.index')->with('users', User::all());
     }
 
+    public function makeWriter(User $user)
+    {
+        $user->role = 'writer';
+        $user->save();
+        session()->flash('success','User made Admin Successfully');
+        return redirect()->route('users.index');
+    }
+
     public function makeAdmin(User $user)
     {
         $user->role = 'admin';
         $user->save();
         session()->flash('success','User made Admin Successfully');
+        return redirect()->route('users.index');
+    }
+
+    public function makeSuperAdmin(User $user)
+    {
+        $user->role = 'superadmin';
+        $user->save();
+        session()->flash('success','User made Admin Successfully');
+        return redirect()->route('users.index');
+
+    }
+
+    public function removeWriter(User $user)
+    {
+        $user->role = 'guest';
+        $user->save();
+        session()->flash('success','User made Admin Successfully');
+        return redirect()->route('users.index');
+    }
+
+    public function removeAdmin(User $user)
+    {
+        $user->role = 'writer';
+        $user->save();
+        session()->flash('success','User Admin priviledge Successfully removed');
+        return redirect()->route('users.index');
+    }
+
+    public function removeSuperAdmin(User $user)
+    {
+        $user->role = 'writer';
+        $user->save();
+        session()->flash('success','User Super Admin priviledge Successfully removed');
         return redirect()->route('users.index');
 
     }

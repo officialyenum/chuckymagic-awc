@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
             User::create([
                 'name' => 'Opone Yenum',
                 'email' => 'oponechukwuyenum@gmail.com',
-                'role' => 'admin',
+                'role' => 'superadmin',
                 'password' => Hash::make('password')
             ]);
         }
@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder
             User::create([
                 'name' => 'Ebitunmise Daniel',
                 'email' => 'ebitunmise@gmail.com',
-                'role' => 'admin',
+                'role' => 'superadmin',
                 'password' => Hash::make('password')
             ]);
         }

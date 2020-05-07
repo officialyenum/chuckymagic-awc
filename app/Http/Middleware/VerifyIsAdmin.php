@@ -15,7 +15,7 @@ class VerifyIsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (!auth()->user()->isAdmin())
+        if (!auth()->user()->isAdmin() && !auth()->user()->isSuperAdmin() && !auth()->user()->isWriter())
         {
             return redirect(route('dashboard'));
         }
