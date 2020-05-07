@@ -92,28 +92,25 @@
                                 <div class="card-body">
                                     <ul class="list-group">
                                         <li class="list-group-item">
-                                            <a href="{{ route('posts.index')}}">Posts</a>
+                                            <a class="btn btn-info text-white btn-block"  href="{{ route('posts.index')}}">Posts</a>
                                         </li>
                                         @if (auth()->user()->isAdmin())
                                             <li class="list-group-item">
-                                                <a href={{ route('users.index') }}>
+                                                <a class="btn btn-info text-white btn-block" href={{ route('users.index') }}>
                                                     Users
                                                 </a>
                                             </li>
                                             <li class="list-group-item">
-                                                <a href="{{ route('categories.index')}}">
+                                                <a class="btn btn-info text-white btn-block" href="{{ route('categories.index')}}">
                                                     Categories
                                                 </a>
                                             </li>
                                             <li class="list-group-item">
-                                                <a href="{{ route('tags.index')}}">
-                                                    Tags
+                                                <a class="btn btn-info text-white btn-block" href="{{ route('tags.index')}}">
+                                                    Acivities
                                                 </a>
                                             </li>
                                         @endif
-                                        @foreach ($categories as $category)
-                                            <li class="list-group-item">{{ $category->name }}</li>
-                                        @endforeach
                                     </ul>
                                 </div>
                             </div>

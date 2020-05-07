@@ -59,7 +59,7 @@ class PostsTableSeeder extends Seeder
             'image' => 'posts/1.jpg'
         ]);
         $post2 = $author1->posts()->create([
-            'title' => 'Decemper House party 2019',
+            'title' => 'December House party 2019',
             'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category1->id,

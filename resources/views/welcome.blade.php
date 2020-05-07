@@ -74,16 +74,16 @@
             <div class="navbar-left mr-4">
                 <button class="navbar-toggler" type="button">&#9776;</button>
                 <a class="navbar-brand" href="#">
-                <img class="logo-dark" src="{{asset('img/logo-dark.png')}}" alt="logo">
-                <img class="logo-light" src="{{asset('img/logo-light.png')}}" alt="logo">
+                <img class="logo-dark" src="{{asset('img/awc-web-logo.png')}}" alt="logo">
+                <img class="logo-light" src="{{asset('img/awc-web-logo.png')}}" alt="logo">
                 </a>
             </div>
 
             <section class="navbar-mobile">
                 <nav class="nav nav-navbar mr-auto">
                 <a class="nav-link active" href="{{ route('dashboard')}} ">Home</a>
-                <a class="nav-link" href="#section-features">Features</a>
-                <a class="nav-link" href="#section-pricing">Activities</a>
+                <a class="nav-link" href="{{route('dashboard')}}">Events</a>
+                <a class="nav-link" href="#">Activities</a>
                 <a class="nav-link" href="#">Hangouts</a>
                 <a class="nav-link" href="#">NewsLetter</a>
                 <a class="nav-link" href="#">Contact</a>
@@ -380,7 +380,7 @@
             <div class="row gap-y align-items-center">
 
                 <div class="col-md-3 text-center text-md-left">
-                <a href="#"><img src="../assets/img/logo-dark.png" alt="logo"></a>
+                <a href="#"><img src="{{asset('img/awc-web-logo.png')}}" alt="logo"></a>
                 </div>
 
                 <div class="col-md-6">

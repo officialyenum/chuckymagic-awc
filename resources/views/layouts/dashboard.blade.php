@@ -25,10 +25,6 @@
     <section class="topbar d-lg-flex position-static">
         <div class="container small-3">
           <nav class="nav">
-            <a class="nav-link pl-0" href="#">About</a>
-            <a class="nav-link" href="#">Terms</a>
-            <a class="nav-link" href="#">FAQ</a>
-            <a class="nav-link" href="#">Help</a>
           </nav>
           <div class="col-6 col-lg-3 text-right order-lg-last">
             <div class="social">
@@ -42,27 +38,31 @@
         </div>
     </section><!-- /.topbar -->
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light navbar-stick-dark" data-navbar="sticky">
-      <div class="container">
 
-        <div class="navbar-left">
-          <button class="navbar-toggler" type="button">&#9776;</button>
-          <a class="navbar-brand" href="{{route('dashboard')}}">
-            <img class="logo-dark" src="{{asset('img/logo-dark.png')}}" alt="logo">
-            <img class="logo-light" src="{{asset('img/logo-light.png')}}" alt="logo">
-          </a>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-stick-dark" data-navbar="smart">
+        <div class="container">
+
+        <div class="navbar-left mr-4">
+            <button class="navbar-toggler" type="button">&#9776;</button>
+            <a class="navbar-brand" href="{{route('welcome')}}">
+            <img class="logo-dark" src="{{asset('img/awc-web-logo.png')}}" alt="logo">
+            <img class="logo-light" src="{{asset('img/awc-web-logo.png')}}" alt="logo">
+            </a>
         </div>
 
         <section class="navbar-mobile">
-            <span class="navbar-divider d-mobile-none"></span>
             <nav class="nav nav-navbar mr-auto">
-              <a class="nav-link active" href="{{route('dashboard')}}">Home</a>
-              <a class="nav-link" href="#">Explore</a>
-              <a class="nav-link" href="#">Create</a>
-              <a class="nav-link" href="#">Shop</a>
+            <a class="nav-link active" href="{{ route('dashboard')}} ">Home</a>
+            <a class="nav-link" href="{{route('dashboard')}}">Events</a>
+            <a class="nav-link" href="#">Activities</a>
+            <a class="nav-link" href="#">Hangouts</a>
+            <a class="nav-link" href="#">NewsLetter</a>
+            <a class="nav-link" href="#">Contact</a>
             </nav>
+
         </section>
+
         @auth
             <a id="navbarDropdown" class="nav-link dropdown-toggle btn btn-xs btn-round btn-success text-white" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                 {{ Auth::user()->name }} <span class="arrow"></span>
@@ -99,9 +99,9 @@
             @endif
         @endguest
 
-      </div>
-    </nav><!-- /.navbar -->
-
+        </div>
+    </nav>
+    <!-- /.navbar -->
 
     <!-- Header -->
     @yield('header')
@@ -110,27 +110,35 @@
     <!-- Main Content -->
     @yield('content')
 
+
     <!-- Footer -->
     <footer class="footer">
-      <div class="container">
+        <div class="container">
         <div class="row gap-y align-items-center">
 
-          <div class="col-6 col-lg-3">
-            <a href="/"><img src="{{asset('img/logo-dark.png')}}" alt="logo"></a>
-          </div>
-
-          <div class="col-6 col-lg-3 text-right order-lg-last">
-            <div class="social">
-              <a class="social-facebook" href="https://www.facebook.com/thethemeio"><i class="fa fa-facebook"></i></a>
-              <a class="social-twitter" href="https://twitter.com/chuckymagic"><i class="fa fa-twitter"></i></a>
-              <a class="social-instagram" href="https://www.instagram.com/chuckymagic/"><i class="fa fa-instagram"></i></a>
-              <a class="social-youtube" href="https://www.youtube.com/channel/UC0vvRCPV8yFDXLhtIaUCSvg?view_as=subscriber"><i class="fa fa-youtube"></i></a>
+            <div class="col-md-3 text-center text-md-left">
+            <a href="#"><img src="{{asset('img/awc-web-logo.png')}}" alt="logo"></a>
             </div>
-          </div>
+
+            <div class="col-md-6">
+            <div class="nav nav-center">
+                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="#">Terms</a>
+                <a class="nav-link" href="#">FAQ</a>
+                <a class="nav-link" href="#">Policy</a>
+                <a class="nav-link" href="#">Help</a>
+                <a class="nav-link" href="#">Contact</a>
+            </div>
+            </div>
+
+            <div class="col-md-3 text-center text-md-right">
+            <small>Built by <a href="https://www.chuckymagic.com">Chuckymagic</a> for <a href="http://www.afterworkchills.com">AWC</a> <br>© 2020. All rights reserved.</small>
+            </div>
 
         </div>
-      </div>
-    </footer><!-- /.footer -->
+        </div>
+    </footer>
+    <!-- /.footer -->
 
 
     <!-- Scripts -->
