@@ -18,29 +18,36 @@ class PostsTableSeeder extends Seeder
     public function run()
     {
         $author1 = User::create([
-            'name' => 'Archibong Regina',
-            'email' => 'archibongregina@gmail.com',
+            'name' => 'Regina Alex',
+            'email' => 'reggyalex@yahoo.com',
             'role' => 'admin',
             'password' => Hash::make('password')
         ]);
 
         $author2 = User::create([
-            'name' => 'Wole Of Lagos',
-            'email' => 'woleoflagos@gmail.com',
+            'name' => 'Moyin Oke',
+            'email' => 'moyinoke@gmail.com',
             'role' => 'admin',
             'password' => Hash::make('password')
         ]);
 
         $author3 = User::create([
-            'name' => 'Oreofe',
-            'email' => 'oreofe@gmail.com',
+            'name' => 'Oreofe Olurin',
+            'email' => 'oreofeolurin@gmail.com',
             'role' => 'writer',
             'password' => Hash::make('password')
         ]);
 
         $author4 = User::create([
-            'name' => 'tomisola',
-            'email' => 'tomisola@gmail.com',
+            'name' => 'Morebise Oluwatomisola',
+            'email' => 'morebtomi@gmail.com',
+            'password' => Hash::make('password')
+        ]);
+
+        $author5 = User::create([
+            'name' => 'Mobola Akintola',
+            'email' => 'mobolaakintola@gmail.com',
+            'role' => 'admin',
             'password' => Hash::make('password')
         ]);
 
