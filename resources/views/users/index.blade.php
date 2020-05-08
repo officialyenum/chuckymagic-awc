@@ -8,16 +8,23 @@
         @if (auth()->user()->isSuperAdmin())
             <div class="card-body">
                 @if ($users->count() > 0)
-                    <table class="table">
+                    <table class="table table-bordered">
                         <thead>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Role</th>
-                            <th>Action</th>
+                            <tr>
+                                <th scope="row">#</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Make</th>
+                                <th>Remove</th>
+                            </tr>
                         </thead>
                         <tbody>
                             @foreach ($users as $user)
                                 <tr>
+                                    <td>
+                                        {{ $user->id }}
+                                    </td>
                                     <td>
                                         <img width="40px" height="40px" style="border-radius : 50%" src="{{ Gravatar::src($user->email)}}" alt="Avater">
                                     </td>
@@ -39,49 +46,74 @@
                                             @endif
                                         @endif
                                     </td>
+                                    @if ($user->isAdmin())
                                     <td>
-                                        @if ($user->isAdmin())
-                                            <form action="{{route('users.make-super-admin', $user->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Make Super Admin</button>
-                                            </form>
+                                        <form action="{{route('users.make-super-admin', $user->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">Make Super Admin</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="{{route('users.remove-admin', $user->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm">Remove Admin</button>
+                                        </form>
+                                    </td>
+                                    @endif
+                                    @if ($user->isSuperAdmin())
+                                        @if ($user->name == auth()->user()->name)
+                                        <td>
 
-                                            <form action="{{route('users.make-writer', $user->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Make Writer</button>
-                                            </form>
-                                        @endif
-                                        @if ($user->isSuperAdmin())
-                                            @if ($user->name == auth()->user()->name)
+                                        </td>
+                                        <td>
 
+                                        </td>
+                                        @else
+                                            @if ($user->id == 1)
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
                                             @else
-                                                @if ($user->id == 1)
+                                            <td>
 
-                                                @else
-                                                    <form action="{{route('users.remove-super-admin', $user->id) }}" method="POST">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger btn-sm">Remove Super Admin</button>
-                                                    </form>
-                                                @endif
+                                            </td>
+                                            <td>
+                                                <form action="{{route('users.remove-super-admin', $user->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger btn-sm">Remove Super Admin</button>
+                                                </form>
+                                            </td>
                                             @endif
                                         @endif
-                                        @if ($user->isWriter())
-                                            <form action="{{route('users.make-admin', $user->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Make Admin</button>
-                                            </form>
-                                            <form action="{{route('users.remove-writer', $user->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Remove Writer</button>
-                                            </form>
-                                        @endif
-                                        @if ($user->isGuest())
-                                            <form action="{{route('users.make-writer', $user->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Make Writer</button>
-                                            </form>
-                                        @endif
+                                    @endif
+                                    @if ($user->isWriter())
+                                    <td>
+                                        <form action="{{route('users.make-admin', $user->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">Make Admin</button>
+                                        </form>
                                     </td>
+                                    <td>
+                                        <form action="{{route('users.remove-writer', $user->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm">Remove Writer</button>
+                                        </form>
+                                    </td>
+                                    @endif
+                                    @if ($user->isGuest())
+                                    <td>
+                                        <form action="{{route('users.make-writer', $user->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">Make Writer</button>
+                                        </form>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
@@ -94,16 +126,23 @@
         @else
             <div class="card-body">
                 @if ($users->count() > 0)
-                    <table class="table">
+                    <table class="table table-bordered">
                         <thead>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Role</th>
-                            <th>Action</th>
+                            <tr>
+                                <th scope="row">#</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Make</th>
+                                <th>Remove</th>
+                            </tr>
                         </thead>
                         <tbody>
                             @foreach ($users as $user)
                                 <tr>
+                                    <td>
+                                        {{ $user->id }}
+                                    </td>
                                     <td>
                                         <img width="40px" height="40px" style="border-radius : 50%" src="{{ Gravatar::src($user->email)}}" alt="Avater">
                                     </td>
@@ -125,34 +164,52 @@
                                             @endif
                                         @endif
                                     </td>
-                                    <td>
-                                        @if ($user->isGuest())
-                                        <form action="{{route('users.make-writer', $user->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">Make Writer</button>
-                                        </form>
-                                        @endif
-                                        @if ($user->isWriter())
-                                        <form action="{{route('users.remove-writer', $user->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm">Remove Writer</button>
-                                        </form>
-                                        <form action="{{route('users.make-admin', $user->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-success btn-sm">Make Admin</button>
-                                        </form>
-                                        @endif
-                                        @if ($user->isAdmin())
-                                            @if ($user->id == auth()->user()->id)
+                                    @if ($user->isGuest())
+                                        <td>
+                                            <form action="{{route('users.make-writer', $user->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success btn-sm">Make Writer</button>
+                                            </form>
 
-                                            @else
-                                                <form action="{{route('users.remove-admin', $user->id) }}" method="POST">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-danger btn-sm">Remove Admin</button>
-                                                </form>
-                                            @endif
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    @endif
+                                    @if ($user->isWriter())
+                                        <td>
+                                            <form action="{{route('users.make-admin', $user->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success btn-sm">Make Admin</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="{{route('users.remove-writer', $user->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger btn-sm">Remove Writer</button>
+                                            </form>
+                                        </td>
+                                    @endif
+                                    @if ($user->isAdmin())
+                                        @if ($user->id == auth()->user()->id)
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        @else
+                                        <td>
+
+                                        </td>
+                                        <td>
+                                            <form action="{{route('users.remove-admin', $user->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger btn-sm">Remove Admin</button>
+                                            </form>
+                                        </td>
                                         @endif
-                                    </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
