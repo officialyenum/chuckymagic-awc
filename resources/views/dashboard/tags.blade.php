@@ -7,7 +7,7 @@
 @section('header')
 
     <!-- Header -->
-    <header class="header text-white h-fullscreen pb-80" style="background-image: url({{asset('img/bg/1.jpg')}});" data-overlay="7">
+    <header class="header text-white h-fullscreen pb-80" style="background-image: url({{asset('img/preview/awc-logo.jpg')}});" data-overlay="7">
         <div class="container text-center">
 
           <div class="row h-100">

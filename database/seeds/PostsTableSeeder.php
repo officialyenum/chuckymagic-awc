@@ -20,12 +20,27 @@ class PostsTableSeeder extends Seeder
         $author1 = User::create([
             'name' => 'Archibong Regina',
             'email' => 'archibongregina@gmail.com',
+            'role' => 'admin',
             'password' => Hash::make('password')
         ]);
 
         $author2 = User::create([
             'name' => 'Wole Of Lagos',
             'email' => 'woleoflagos@gmail.com',
+            'role' => 'admin',
+            'password' => Hash::make('password')
+        ]);
+
+        $author3 = User::create([
+            'name' => 'Oreofe',
+            'email' => 'oreofe@gmail.com',
+            'role' => 'writer',
+            'password' => Hash::make('password')
+        ]);
+
+        $author4 = User::create([
+            'name' => 'tomisola',
+            'email' => 'tomisola@gmail.com',
             'password' => Hash::make('password')
         ]);
 
@@ -59,13 +74,13 @@ class PostsTableSeeder extends Seeder
             'image' => 'posts/1.jpg'
         ]);
         $post2 = $author1->posts()->create([
-            'title' => 'Decemper House party 2019',
+            'title' => 'December House party 2019',
             'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category1->id,
             'image' => 'posts/2.jpg'
         ]);
-        $post3 = $author2->posts()->create([
+        $post3 = $author3->posts()->create([
             'title' => 'December BurnaBoy Live 2020',
             'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',

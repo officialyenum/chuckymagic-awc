@@ -17,7 +17,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Auth::routes();
 
@@ -35,8 +35,20 @@ Route::middleware(['auth'])->group(function () {
     Route::put('users/profile', 'UsersController@update')->name('users.update-profile');
 });
 
-Route::middleware(['auth','verifyIsAdmin'])->group(function () {
+/* Route::middleware(['verifyIsAdmin'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('users', 'UsersController@index')->name('users.index');
     Route::post('users/{user}/make-admin', 'UsersController@makeAdmin')->name('users.make-admin');
+    Route::post('users/{user}/remove-admin', 'UsersController@removeAdmin')->name('users.remove-admin');
+}); */
+
+Route::middleware(['auth','verifyIsAdmin'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('users', 'UsersController@index')->name('users.index');
+    Route::post('users/{user}/make-writer', 'UsersController@makeWriter')->name('users.make-writer');
+    Route::post('users/{user}/remove-writer', 'UsersController@removeWriter')->name('users.remove-writer');
+    Route::post('users/{user}/make-admin', 'UsersController@makeAdmin')->name('users.make-admin');
+    Route::post('users/{user}/remove-admin', 'UsersController@removeAdmin')->name('users.remove-admin');
+    Route::post('users/{user}/make-super-admin', 'UsersController@makeSuperAdmin')->name('users.make-super-admin');
+    Route::post('users/{user}/remove-super-admin', 'UsersController@removeSuperAdmin')->name('users.remove-super-admin');
 });

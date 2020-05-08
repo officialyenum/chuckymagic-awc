@@ -1,19 +1,19 @@
 @extends('layouts.dashboard')
 
 @section('title')
-   {{$tag->name}}
+   {{$category->name}}
 @endsection
 
 @section('header')
 
     <!-- Header -->
-    <header class="header text-white h-fullscreen pb-80" style="background-image: url({{asset('img/bg/1.jpg')}});" data-overlay="7">
+    <header class="header text-white h-fullscreen pb-80" style="background-image: url({{asset('img/preview/awc-logo.jpg')}});" data-overlay="7">
         <div class="container text-center">
 
           <div class="row h-100">
             <div class="col-lg-8 mx-auto align-self-center">
-                <p class="opacity-70 text-uppercase small ls-1">Post Count : {{$tag->posts->count()}}</p>
-                <h1 class="display-4 mt-7 mb-8">{{$tag->name}}</h1>
+                <p class="opacity-70 text-uppercase small ls-1">Post Count : {{$category->posts->count()}}</p>
+                <h1 class="display-4 mt-7 mb-8">{{$category->name}}</h1>
                 <p><span class="opacity-70 mr-1">Logged User : </span> <a class="text-white" href="#">
                     @auth
                         {{ Auth::user()->name }}
