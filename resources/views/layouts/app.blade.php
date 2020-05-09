@@ -70,7 +70,7 @@
             </div>
         </nav>
 
-        @if (in_array(request()->path(), ['login', 'register', 'password/email', 'password/reset']))
+        @if (in_array(request()->path(), ['login', 'register', 'password/confirm', 'password/email', 'password/reset']))
             <main class="container py-4">
                 @yield('content')
             </main>
@@ -96,25 +96,8 @@
                                                 Posts
                                             </a>
                                         </li>
-                                        @if (auth()->user()->isAdmin())
-                                            <li class="list-group-item">
-                                                <a class="btn btn-info text-white btn-block" href={{ route('users.index') }}>
-                                                    Users
-                                                </a>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <a class="btn btn-info text-white btn-block" href="{{ route('categories.index')}}">
-                                                    Categories
-                                                </a>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <a class="btn btn-info text-white btn-block" href="{{ route('tags.index')}}">
-                                                    Acivities
-                                                </a>
-                                            </li>
-                                        @endif
 
-                                        @if (auth()->user()->isSuperAdmin())
+                                        @if (auth()->user()->isAdmin())
                                             <li class="list-group-item">
                                                 <a class="btn btn-info text-white btn-block" href={{ route('users.index') }}>
                                                     Users
