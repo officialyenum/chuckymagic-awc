@@ -69,7 +69,7 @@
 
                                         </td>
                                         @else
-                                            @if ($user->id == 1)
+                                            @if ($user->id == 10000001)
                                             <td>
 
                                             </td>
