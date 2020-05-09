@@ -86,7 +86,7 @@
                             @endauth
 
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header text-center">
                                     MENU
                                 </div>
                                 <div class="card-body">
