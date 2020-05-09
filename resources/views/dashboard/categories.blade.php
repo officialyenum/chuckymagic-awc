@@ -55,11 +55,11 @@
                 @empty
                     @if ($search)
                         <p class="text-center">
-                            No results found for "<strong> {{request()->query('search')}} </strong>" in "<strong> {{ $tag->name }}</strong>"
+                            No results found for "<strong> {{request()->query('search')}} </strong>" in "<strong> {{ $category->name }}</strong>"
                         </p>
                     @else
                         <p class="text-center">
-                            No results found in "<strong> {{ $tag->name }}</strong>"
+                            No results found in "<strong> {{ $category->name }}</strong>"
                         </p>
                     @endif
                 @endforelse
