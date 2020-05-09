@@ -114,6 +114,23 @@
                                                 </a>
                                             </li>
                                         @endif
+                                        @if (auth()->user()->isSuperAdmin())
+                                            <li class="list-group-item">
+                                                <a class="btn btn-info text-white btn-block" href={{ route('users.index') }}>
+                                                    Users
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a class="btn btn-info text-white btn-block" href="{{ route('categories.index')}}">
+                                                    Categories
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a class="btn btn-info text-white btn-block" href="{{ route('tags.index')}}">
+                                                    Acivities
+                                                </a>
+                                            </li>
+                                        @endif
                                         <li class="list-group-item">
                                             <a class="btn btn-info text-white btn-block" href="{{ route('trashed-posts.index')}}">
                                                 Trashed Posts
