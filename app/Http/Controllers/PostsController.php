@@ -48,9 +48,11 @@ class PostsController extends Controller
     public function store(CreatePostsRequest $request)
     {
         // upload the image
+        //$extension = $request->image->extension();
+        //$image = Storage::putFileAs('posts', $request->image, time().'.'.$extension);
         $image = $request->image->store(
             'posts',
-            's3'
+            'do'
         );
         //set Image Visibility private
         //Storage::disk('s3')->setVisibility($image,'private');
@@ -65,7 +67,7 @@ class PostsController extends Controller
             'category_id' => $request->category,
             'user_id' => auth()->user()->id,
             'image' => basename($image),
-            'imageUrl' => Storage::disk('s3')->url($image)
+            'imageUrl' => Storage::disk('do')->url($image)
         ]);
 
         if ($request->tags) {
@@ -116,12 +118,13 @@ class PostsController extends Controller
             //if new image upload it
             $image = $request->image->store(
                 'posts',
-                's3'
+                'do'
             );
             //delete old image
             $post->deleteImage();
-            //updata image data to be submitted
-            $data['image'] =  $image;
+            //update image data to be submitted
+            $data['image'] = basename($image);
+            $data['imageUrl'] = Storage::disk('do')->url($image);
         }
 
         if ($request->tags) {
