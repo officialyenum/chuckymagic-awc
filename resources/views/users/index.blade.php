@@ -1,25 +1,28 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-    <div class="card card-default">
+    <div class="card card-header">
         <div class="card-header">
-            Users
+            <h2>Users</h2>
         </div>
-        @if (auth()->user()->isSuperAdmin())
-            <div class="card-body">
+        <div class="card-body">
+            @if (auth()->user()->isSuperAdmin())
                 @if ($users->count() > 0)
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="row">#</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Make</th>
-                                <th>Remove</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="row">#</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Make</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
                             @foreach ($users as $user)
                                 <tr>
                                     <td>
@@ -30,6 +33,9 @@
                                     </td>
                                     <td>
                                         {{ $user->name }}
+                                    </td>
+                                    <td>
+                                        {{ $user->email }}
                                     </td>
                                     <td>
                                         @if ($user->role == 'superadmin')
@@ -116,28 +122,29 @@
                                     @endif
                                 </tr>
                             @endforeach
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 @else
                     <h3 class="text-center">No Users Yet</h3>
                 @endif
-            </div>
-
-        @else
-            <div class="card-body">
+            @else
                 @if ($users->count() > 0)
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="row">#</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Make</th>
-                                <th>Remove</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="row">#</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Make</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
                             @foreach ($users as $user)
                                 <tr>
                                     <td>
@@ -148,6 +155,9 @@
                                     </td>
                                     <td>
                                         {{ $user->name }}
+                                    </td>
+                                    <td>
+                                        {{ $user->email }}
                                     </td>
                                     <td>
                                         @if ($user->role == 'superadmin')
@@ -164,34 +174,19 @@
                                             @endif
                                         @endif
                                     </td>
-                                    @if ($user->isGuest())
-                                        <td>
-                                            <form action="{{route('users.make-writer', $user->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Make Writer</button>
-                                            </form>
-
-                                        </td>
-                                        <td>
-
-                                        </td>
-                                    @endif
-                                    @if ($user->isWriter())
-                                        <td>
-                                            <form action="{{route('users.make-admin', $user->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Make Admin</button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <form action="{{route('users.remove-writer', $user->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-danger btn-sm">Remove Writer</button>
-                                            </form>
-                                        </td>
-                                    @endif
                                     @if ($user->isAdmin())
-                                        @if ($user->id == auth()->user()->id)
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        <form action="{{route('users.remove-admin', $user->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm">Remove Admin</button>
+                                        </form>
+                                    </td>
+                                    @endif
+                                    @if ($user->isSuperAdmin())
+                                        @if ($user->name == auth()->user()->name)
                                         <td>
 
                                         </td>
@@ -199,26 +194,58 @@
 
                                         </td>
                                         @else
-                                        <td>
+                                            @if ($user->id == 10000001)
+                                            <td>
 
-                                        </td>
-                                        <td>
-                                            <form action="{{route('users.remove-admin', $user->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-danger btn-sm">Remove Admin</button>
-                                            </form>
-                                        </td>
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            @else
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            @endif
                                         @endif
+                                    @endif
+                                    @if ($user->isWriter())
+                                    <td>
+                                        <form action="{{route('users.make-admin', $user->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">Make Admin</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="{{route('users.remove-writer', $user->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm">Remove Writer</button>
+                                        </form>
+                                    </td>
+                                    @endif
+                                    @if ($user->isGuest())
+                                    <td>
+                                        <form action="{{route('users.make-writer', $user->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">Make Writer</button>
+                                        </form>
+                                    </td>
+                                    <td>
+
+                                    </td>
                                     @endif
                                 </tr>
                             @endforeach
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 @else
                     <h3 class="text-center">No Users Yet</h3>
                 @endif
-            </div>
-        @endif
+            @endif
+        </div>
     </div>
 
 
