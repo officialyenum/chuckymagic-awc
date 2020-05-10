@@ -50,7 +50,7 @@ class PostsController extends Controller
         // upload the image
         //$extension = $request->image->extension();
         //$image = Storage::putFileAs('posts', $request->image, time().'.'.$extension);
-        $image = $request->image->store(
+        $image = $request->file('image')->store(
             'posts',
             'do'
         );
