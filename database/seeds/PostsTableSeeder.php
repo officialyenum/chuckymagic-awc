@@ -19,13 +19,36 @@ class PostsTableSeeder extends Seeder
     {
         $author1 = User::create([
             'name' => 'Archibong Regina',
-            'email' => 'archibongregina@gmail.com',
+            'email' => 'reggyalex@yahoo.com',
+            'role' => 'admin',
             'password' => Hash::make('password')
         ]);
 
         $author2 = User::create([
             'name' => 'Wole Of Lagos',
-            'email' => 'woleoflagos@gmail.com',
+            'email' => 'wole@lagosnomad.com',
+            'role' => 'admin',
+            'password' => Hash::make('password')
+        ]);
+
+        $author3 = User::create([
+            'name' => 'Oreofe Olurin',
+            'email' => 'oreofeolurin@gmail.com',
+            'role' => 'admin',
+            'password' => Hash::make('password')
+        ]);
+
+        $author4 = User::create([
+            'name' => 'Akintola Mobola',
+            'email' => 'mobolaakintola@gmail.com',
+            'role' => 'admin',
+            'password' => Hash::make('password')
+        ]);
+
+        $author5 = User::create([
+            'name' => 'Moyin Oke',
+            'email' => 'moyinoke@gmail.com',
+            'role' => 'admin',
             'password' => Hash::make('password')
         ]);
 
@@ -56,28 +79,32 @@ class PostsTableSeeder extends Seeder
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category5->id,
             'user_id' => $author2->id,
-            'image' => 'posts/1.jpg'
+            'image' => 'posts/1.jpg',
+            'imageUrl' => 'https://awc-demo.s3.us-east-2.amazonaws.com/posts/1.jpg'
         ]);
         $post2 = $author1->posts()->create([
-            'title' => 'Decemper House party 2019',
+            'title' => 'December House party 2019',
             'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category1->id,
-            'image' => 'posts/2.jpg'
+            'image' => 'posts/2.jpg',
+            'imageUrl' => 'https://awc-demo.s3.us-east-2.amazonaws.com/posts/2.jpg'
         ]);
-        $post3 = $author2->posts()->create([
+        $post3 = $author3->posts()->create([
             'title' => 'December BurnaBoy Live 2020',
             'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category2->id,
-            'image' => 'posts/3.jpg'
+            'image' => 'posts/3.jpg',
+            'imageUrl' => 'https://awc-demo.s3.us-east-2.amazonaws.com/posts/3.jpg'
         ]);
         $post4 = $author2->posts()->create([
             'title' => 'January Hangout 2020',
             'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category5->id,
-            'image' => 'posts/3.jpg'
+            'image' => 'posts/3.jpg',
+            'imageUrl' => 'https://awc-demo.s3.us-east-2.amazonaws.com/posts/3.jpg'
         ]);
         $post5 = Post::create([
             'title' => 'February Netflix Party 2020',
@@ -85,7 +112,8 @@ class PostsTableSeeder extends Seeder
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category4->id,
             'user_id' => $author1->id,
-            'image' => 'posts/4.jpg'
+            'image' => 'posts/4.jpg',
+            'imageUrl' => 'https://awc-demo.s3.us-east-2.amazonaws.com/posts/4.jpg'
         ]);
         $post6 = Post::create([
             'title' => 'COVID-19 Update',
@@ -93,7 +121,8 @@ class PostsTableSeeder extends Seeder
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category7->id,
             'user_id' => $author1->id,
-            'image' => 'posts/4.jpg'
+            'image' => 'posts/4.jpg',
+            'imageUrl' => 'https://awc-demo.s3.us-east-2.amazonaws.com/posts/4.jpg'
         ]);
 
         $tag1 = Tag::create([

@@ -1,19 +1,19 @@
 @extends('layouts.dashboard')
 
 @section('title')
-   {{$tag->name}}
+   {{$category->name}}
 @endsection
 
 @section('header')
 
     <!-- Header -->
-    <header class="header text-white h-fullscreen pb-80" style="background-image: url({{asset('img/bg/1.jpg')}});" data-overlay="7">
+    <header class="header text-white h-fullscreen pb-80" style="background-image: url({{asset('img/preview/awc-logo.jpg')}});" data-overlay="7">
         <div class="container text-center">
 
           <div class="row h-100">
             <div class="col-lg-8 mx-auto align-self-center">
-                <p class="opacity-70 text-uppercase small ls-1">Post Count : {{$tag->posts->count()}}</p>
-                <h1 class="display-4 mt-7 mb-8">{{$tag->name}}</h1>
+                <p class="opacity-70 text-uppercase small ls-1">Post Count : {{$category->posts->count()}}</p>
+                <h1 class="display-4 mt-7 mb-8">{{$category->name}}</h1>
                 <p><span class="opacity-70 mr-1">Logged User : </span> <a class="text-white" href="#">
                     @auth
                         {{ Auth::user()->name }}
@@ -44,22 +44,32 @@
                 <div class="row gap-y">
                 @forelse ($posts as $post)
                     <div class="col-md-6">
-                    <div class="card border hover-shadow-6 mb-6 d-block">
-                        <a href="#"><img class="card-img-top" src="{{ asset($post->image) }}" alt="Card image cap"></a>
-                        <div class="p-6 text-center">
-                        <p><a class="small-5 text-lighter text-uppercase ls-2 fw-400" href="{{route('categories.edit', $post->category->id)}}">{{$post->category->name}}</a></p>
-                        <h5 class="mb-0"><a class="text-dark" href="{{route('dashboard.show',$post->id)}}">{{ $post->title }}</a></h5>
+                        <div class="col-12 col-lg-12">
+                            <div class="card text-white bg-img h-300 mb-5" style="background-image: url({{ $post->imageUrl }});" data-overlay="6">
+                                <div class="row h-100 p-5">
+                                    <div class="col-12">
+                                        <a class="text-white" href="{{route('dashboard.show',$post->id)}}">{{$post->category->name}}</a>
+                                    </div>
+
+                                    <div class="col-12 align-self-end">
+                                        <h3 class="card-title fw-200"><a href="{{route('dashboard.show',$post->id)}}">{{$post->title }}</a></h3>
+                                        <div class="media align-items-center">
+                                        <img class="avatar avatar-xs mr-3" src="{{ Gravatar::src($post->user->email)}}" alt="...">
+                                        <div class="media-body">By {{ $post->user->name }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 @empty
                     @if ($search)
                         <p class="text-center">
-                            No results found for "<strong> {{request()->query('search')}} </strong>" in "<strong> {{ $tag->name }}</strong>"
+                            No results found for "<strong> {{request()->query('search')}} </strong>" in "<strong> {{ $category->name }}</strong>"
                         </p>
                     @else
                         <p class="text-center">
-                            No results found in "<strong> {{ $tag->name }}</strong>"
+                            No results found in "<strong> {{ $category->name }}</strong>"
                         </p>
                     @endif
                 @endforelse

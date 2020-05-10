@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Storage;
 class Post extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['title','description','content','image','published_at','category_id','user_id'];
+    protected $fillable = ['title','description','content','image','imageUrl','published_at','category_id','user_id'];
 
     public function deleteImage()
     {
-        Storage::delete($this->image);
+        Storage::disk('s3')->delete($this->image);
 
     }
 

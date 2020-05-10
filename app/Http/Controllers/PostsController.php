@@ -10,6 +10,7 @@ use App\Tag;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
@@ -47,7 +48,14 @@ class PostsController extends Controller
     public function store(CreatePostsRequest $request)
     {
         // upload the image
-        $image = $request->image->store('posts');
+        $image = $request->image->store(
+            'posts',
+            's3'
+        );
+        //set Image Visibility private
+        //Storage::disk('s3')->setVisibility($image,'private');
+        //set Image Visibility public
+        //Storage::disk('s3')->setVisibility($image,'public');
         // create the post
         $post = Post::Create([
             'title' => $request->title,
@@ -56,7 +64,8 @@ class PostsController extends Controller
             'published_at' => $request->published_at,
             'category_id' => $request->category,
             'user_id' => auth()->user()->id,
-            'image' => $image
+            'image' => basename($image),
+            'imageUrl' => Storage::disk('s3')->url($image)
         ]);
 
         if ($request->tags) {
@@ -105,7 +114,10 @@ class PostsController extends Controller
         //check if new image
         if ($request->hasFile('image')) {
             //if new image upload it
-            $image = $request->image->store('posts');
+            $image = $request->image->store(
+                'posts',
+                's3'
+            );
             //delete old image
             $post->deleteImage();
             //updata image data to be submitted
