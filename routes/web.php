@@ -19,9 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Auth::routes();
 
-Route::middleware(['auth'])->group(function () {
+Auth::routes(['verify' => true]);
+
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [PostsController::class, 'index'])->name('dashboard');
     Route::get('dashboard/posts/{post}', [PostsController::class, 'show'])->name('dashboard.show');
     Route::get('dashboard/categories/{category}', [PostsController::class, 'category'])->name('dashboard.category');
