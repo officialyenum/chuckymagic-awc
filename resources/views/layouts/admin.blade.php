@@ -110,7 +110,7 @@
                                             </li>
                                             <li class="list-group-item">
                                                 <a class="btn btn-info text-white btn-block" href="{{ route('tags.index')}}">
-                                                    Acivities
+                                                    Activities
                                                 </a>
                                             </li>
                                         @endif
