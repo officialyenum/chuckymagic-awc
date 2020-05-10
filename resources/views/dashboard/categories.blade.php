@@ -44,13 +44,23 @@
                 <div class="row gap-y">
                 @forelse ($posts as $post)
                     <div class="col-md-6">
-                    <div class="card border hover-shadow-6 mb-6 d-block">
-                        <a href="#"><img class="card-img-top" src="{{ asset($post->image) }}" alt="Card image cap"></a>
-                        <div class="p-6 text-center">
-                        <p><a class="small-5 text-lighter text-uppercase ls-2 fw-400" href="{{route('categories.edit', $post->category->id)}}">{{$post->category->name}}</a></p>
-                        <h5 class="mb-0"><a class="text-dark" href="{{route('dashboard.show',$post->id)}}">{{ $post->title }}</a></h5>
+                        <div class="col-12 col-lg-12">
+                            <div class="card text-white bg-img h-300 mb-5" style="background-image: url({{ $post->imageUrl }});" data-overlay="6">
+                                <div class="row h-100 p-5">
+                                    <div class="col-12">
+                                        <a class="text-white" href="{{route('dashboard.show',$post->id)}}">{{$post->category->name}}</a>
+                                    </div>
+
+                                    <div class="col-12 align-self-end">
+                                        <h3 class="card-title fw-200"><a href="{{route('dashboard.show',$post->id)}}">{{$post->title }}</a></h3>
+                                        <div class="media align-items-center">
+                                        <img class="avatar avatar-xs mr-3" src="{{ Gravatar::src($post->user->email)}}" alt="...">
+                                        <div class="media-body">By {{ $post->user->name }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 @empty
                     @if ($search)

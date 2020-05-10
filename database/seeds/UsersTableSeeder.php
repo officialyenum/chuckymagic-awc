@@ -23,11 +23,11 @@ class UsersTableSeeder extends Seeder
             ]);
         }
 
-        $user1 = User::where('email','ebitunmise@gmail.com')->first();
+        $user1 = User::where('email','mr.tunmise@gmail.com')->first();
         if (!$user1) {
             User::create([
-                'name' => 'Ebitunmise Daniel',
-                'email' => 'ebitunmise@gmail.com',
+                'name' => 'Daniel Ebitunmise',
+                'email' => 'mr.tunmise@gmail.com',
                 'role' => 'superadmin',
                 'password' => Hash::make('password')
             ]);

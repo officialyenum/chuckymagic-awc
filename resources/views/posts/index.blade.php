@@ -27,7 +27,7 @@
                                         {{ $post->id }}
                                     </td>
                                     <td>
-                                        <img src="{{ asset($post->image) }}" alt="post image" width="40px"  height="40px">
+                                        <img src="{{ $post->imageUrl }}" alt="post image" width="40px"  height="40px">
                                     </td>
                                     <td>
                                         {{ $post->title }}
@@ -149,7 +149,7 @@
                                                 {{ $post->id }}
                                             </td>
                                             <td>
-                                                <img src="{{ asset($post->image) }}" alt="post image" width="40px"  height="40px">
+                                                <img src="{{ $post->imageUrl }}" alt="post image" width="40px"  height="40px">
                                             </td>
                                             <td>
                                                 {{ $post->title }}
@@ -207,7 +207,7 @@
                                                 {{ $post->id }}
                                             </td>
                                             <td>
-                                                <img src="{{ asset($post->image) }}" alt="post image" width="40px"  height="40px">
+                                                <img src="{{ $post->imageUrl }}" alt="post image" width="40px"  height="40px">
                                             </td>
                                             <td>
                                                 {{ $post->title }}
