@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-   {{$tag->name}}
+   {{$tag->name}} || After Work Chills
 @endsection
 
 @section('header')
