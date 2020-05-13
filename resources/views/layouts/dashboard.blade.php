@@ -53,12 +53,8 @@
 
         <section class="navbar-mobile">
             <nav class="nav nav-navbar mr-auto">
-            <a class="nav-link active" href="{{ route('dashboard')}} ">Home</a>
+            <a class="nav-link active" href="{{ route('welcome')}} ">Home</a>
             <a class="nav-link" href="{{route('dashboard')}}">Events</a>
-            <a class="nav-link" href="#">Activities</a>
-            <a class="nav-link" href="#">Hangouts</a>
-            <a class="nav-link" href="#">NewsLetter</a>
-            <a class="nav-link" href="#">Contact</a>
             </nav>
 
         </section>
