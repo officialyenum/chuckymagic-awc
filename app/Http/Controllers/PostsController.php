@@ -26,7 +26,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('posts.index')->with('posts', Post::paginate(10))->with('user', Auth::user());
+        return view('posts.index')->with('posts', Post::orderBy('id', 'DESC')->paginate(10))->with('user', Auth::user());
     }
 
     /**
@@ -36,7 +36,9 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create')->with('categories', Category::all())->with('tags', Tag::all());
+        return view('posts.create')
+            ->with('categories', Category::all())
+            ->with('tags', Tag::all());
     }
 
     /**
@@ -48,11 +50,31 @@ class PostsController extends Controller
     public function store(CreatePostsRequest $request)
     {
         // upload the image
+        $detail = $request->content;
+        libxml_use_internal_errors(true);
+        $dom = new \DOMDocument();
+        $dom->loadHtml($detail, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+
+        foreach ($images as $count => $image) {
+            $src = $image->getAttribute('src');
+            if (preg_match('/data:image/', $src)) {
+                preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
+                $mimeType = $groups['mime'];
+                $path = '/posts/' . uniqid('', true) . '.' . $mimeType;
+                Storage::disk('s3')->put($path, file_get_contents($src));
+                $image->removeAttribute('src');
+                $image->setAttribute('src', Storage::disk('s3')->url($path));
+            }
+        }
+
+        $detail = $dom->savehtml();
+
         //$extension = $request->image->extension();
         //$image = Storage::putFileAs('posts', $request->image, time().'.'.$extension);
         $image = $request->file('image')->store(
             'posts',
-            'do'
+            's3'
         );
         //set Image Visibility private
         //Storage::disk('s3')->setVisibility($image,'private');
@@ -62,12 +84,12 @@ class PostsController extends Controller
         $post = Post::Create([
             'title' => $request->title,
             'description'=> $request->description,
-            'content' => $request->content,
+            'content' =>  $detail,
             'published_at' => $request->published_at,
             'category_id' => $request->category,
             'user_id' => auth()->user()->id,
             'image' => basename($image),
-            'imageUrl' => Storage::disk('do')->url($image)
+            'imageUrl' => Storage::disk('s3')->url($image)
         ]);
 
         if ($request->tags) {
@@ -100,7 +122,9 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.create')->with('post',$post)->with('categories',Category::all())->with('tags',Tag::all());
+        return view('posts.create')->with('post',$post)
+            ->with('categories',Category::all())
+            ->with('tags',Tag::all());
     }
 
     /**
@@ -118,13 +142,13 @@ class PostsController extends Controller
             //if new image upload it
             $image = $request->image->store(
                 'posts',
-                'do'
+                's3'
             );
             //delete old image
             $post->deleteImage();
             //update image data to be submitted
             $data['image'] = basename($image);
-            $data['imageUrl'] = Storage::disk('do')->url($image);
+            $data['imageUrl'] = Storage::disk('s3')->url($image);
         }
 
         if ($request->tags) {

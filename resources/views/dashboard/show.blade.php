@@ -62,39 +62,74 @@
 
 
     <!--
-    |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
-    | Comments
-    |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
-    !-->
-    <div class="section bg-gray">
-      <div class="container">
+      |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+      | Comments
+      |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+      !-->
+      <div class="section bg-gray">
+        <div class="container">
 
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <hr>
-            <div id="disqus_thread"></div>
-            <script>
-            /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
 
-            var disqus_config = function () {
-            this.page.url = "{{ config('app.url')}}/dashboard/posts/{{ $post->id}}";  // Replace PAGE_URL with your page's canonical URL variable
-            this.page.identifier = "{{ $post->id }}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-            };
+                <div class="card my-4">
+                    <div class="card-header">
+                        Add a Comment
+                    </div>
+                    <div class="card-body">
+                        @auth
+                            <form action="{{ route('comments.store', $post->id)}}" method="POST">
+                                @csrf
+                                <div class="row">
+                                    <div class="form-group col-12 col-md-6">
+                                    <input class="form-control" type="text" value="{{auth()->user()->name}}" readonly>
+                                    </div>
 
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://afterworkchill.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
-            </script>
-            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                                    <div class="form-group col-12 col-md-6">
+                                    <input class="form-control" type="text" value="{{auth()->user()->email}}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <textarea name="content" class="form-control" placeholder="Comment" rows="4"></textarea>
+                                </div>
+
+                                <button class="btn btn-primary btn-block" type="submit">Submit your comment</button>
+                            </form>
+                        @else
+                            <a href="{{route('login')}}" class="btn btn-info text-white"> Sign in to Add a comment</a>
+                        @endauth
+                    </div>
+                </div>
+
+                <hr>
+
+                @if ($post->comments->count() > 0)
+                    @foreach ($post->comments as $comment)
+                            <div class="media-list">
+                                <div class="media">
+                                <img class="avatar avatar-sm mr-4" src="{{ Gravatar::src($comment->owner->email)}}" alt="...">
+
+                                    <div class="media-body">
+                                        <div class="small-1">
+                                        <strong>{{$comment->owner->name}}</strong>
+                                        <time class="ml-4 opacity-70 small-3" datetime="2018-07-14 20:00">{{ $comment->created_at->diffforhumans()}}</time>
+                                        </div>
+                                        <p class="small-2 mb-0">{{ $comment->content}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                    @endforeach
+                @else
+                    <div class="d-flex justify-content-center text-center">
+                         No Comments for this post
+                    </div>
+                @endif
+
+            </div>
           </div>
-        </div>
 
+        </div>
       </div>
-    </div>
   </main>
 @endsection

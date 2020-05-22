@@ -1,5 +1,7 @@
-@extends('layouts.app')
-
+@extends('layouts.admin')
+@section('title')
+    {{ isset($post) ? 'Edit Post' : 'Create Post'}} List
+@endsection
 @section('content')
     <div class="card card-default">
         <div class="card-header">
@@ -7,7 +9,7 @@
                 {{ isset($post) ?'Edit Post':'Create Post' }}
             </h1>
         </div>
-        <div class="card-body">
+        <div class="card-body  mb-5">
         @include('partials.errors')
         <form action="{{ isset($post) ? route('posts.update',$post->id) : route('posts.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -19,13 +21,20 @@
                 <input type="text" class="form-control" name="title" id="title" value="{{ isset($post) ? $post->title : ''}}">
             </div>
             <div class="form-group">
+                <label for="image">Header Image</label>
+                <input type="file" class="form-control" name="image" id="image">
+            </div>
+            <div class="form-group">
                 <label for="description">Description</label>
                 <textarea name="description" id="description" cols="5" rows="5" class="form-control">{{ isset($post) ? $post->description : ''}}</textarea>
             </div>
             <div class="form-group">
                 <label for="content">Content</label>
+                <textarea name="content" id="summernote"></textarea>
+                {{--@trix(\App\Post::class, 'content')--}}
+                {{-- <label for="content">Content</label>
                 <input id="content" type="hidden" name="content" value="{{ isset($post) ? $post->content : ''}}">
-                <trix-editor input="content"></trix-editor>
+                <trix-editor input="content"></trix-editor> --}}
             </div>
             <div class="form-group">
                 <label for="published_at">Published At</label>
@@ -41,11 +50,6 @@
                 </div>
 
             @endif
-            <div class="form-group">
-                <label for="image">Image</label>
-                <input type="file" class="form-control" name="image" id="image">
-            </div>
-
             <div class="form-group">
                 <label for="category">Category</label>
                 <select name="category" id="category" class="form-control">
@@ -93,7 +97,8 @@
 @endsection
 
 @section('scripts')
-
+    <!-- include summernote /js -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
     <!-- Select2 -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
@@ -113,15 +118,27 @@
 
         $(document).ready(function() {
             $('.tags-selector').select2();
+            $('#summernote').summernote({
+                placeholder: 'Content goes here...',
+                height: 200,
+                dialogsInBody: true,
+                callbacks:{
+                onInit:function(){
+                    $('body > .note-popover').hide();
+                }
+             },
+            });
+
         })
     </script>
 
 @endsection
 
 @section('css')
+    <!-- include summernote css -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
     <!-- Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">

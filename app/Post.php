@@ -61,4 +61,9 @@ class Post extends Model
         $userID = Auth::user();
         return $this->post->where('user_id','Like', "%{$userID}%");
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->orderby('id','DESC');
+    }
 }

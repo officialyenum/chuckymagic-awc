@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('categories', 'CategoriesController');
     Route::resource('tags', 'TagsController');
     Route::resource('posts', 'PostsController');
+    Route::resource('posts/{post}/comments', 'CommentsController');
     Route::get('trashed-posts', 'PostsController@trashed')->name('trashed-posts.index');
     Route::put('restore-posts/{post}', 'PostsController@restore')->name('restore-posts');
     Route::get('users/profile', 'UsersController@edit')->name('users.edit-profile');
