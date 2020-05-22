@@ -78,7 +78,7 @@
             <main class="py-4">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             @auth
                             <a href="{{route('posts.create')}}" style="width: 100%;" class="btn btn-info my-2 text-white">Create Event</a>
                             @else
@@ -113,6 +113,16 @@
                                                     Activities
                                                 </a>
                                             </li>
+                                            <li class="list-group-item">
+                                                <a class="btn btn-info text-white btn-block" href="#">
+                                                    Notifications
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a class="btn btn-info text-white btn-block" href="#">
+                                                    Comments
+                                                </a>
+                                            </li>
                                         @endif
                                         @if (auth()->user()->isSuperAdmin())
                                             <li class="list-group-item">
@@ -130,6 +140,16 @@
                                                     Acivities
                                                 </a>
                                             </li>
+                                            <li class="list-group-item">
+                                                <a class="btn btn-info text-white btn-block" href="#">
+                                                    Notifications
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a class="btn btn-info text-white btn-block" href="#">
+                                                    Comments
+                                                </a>
+                                            </li>
                                         @endif
                                         <li class="list-group-item">
                                             <a class="btn btn-info text-white btn-block" href="{{ route('trashed-posts.index')}}">
@@ -140,7 +160,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             @yield('content')
                         </div>
                     </div>
