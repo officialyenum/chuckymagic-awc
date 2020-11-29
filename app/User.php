@@ -38,24 +38,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function isGuest()
+    public function deleteAvatarImage()
     {
-        return $this->role === 'guest';
+        Storage::disk('s3')->delete($this->avatar);
+
+    }
+
+    public function deleteHeaderImage()
+    {
+        Storage::disk('s3')->delete($this->header_image);
+
+    }
+    public function isMember()
+    {
+        return $this->role_id === 4;
     }
 
     public function isWriter()
     {
-        return $this->role === 'writer';
+        return $this->role_id === 3;
     }
 
     public function isAdmin()
     {
-        return $this->role === 'admin';
+        return $this->role_id === 2;
     }
 
     public function isSuperAdmin()
     {
-        return $this->role === 'superadmin';
+        return $this->role_id === 1;
     }
 
     public function posts()
@@ -66,5 +77,20 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function job()
+    {
+        return $this->belongsTo(Job::class);
+    }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class);
     }
 }

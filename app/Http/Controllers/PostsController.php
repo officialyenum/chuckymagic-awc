@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Http\Requests\Posts\CreatePostsRequest;
 use App\Http\Requests\Posts\UpdatePostsRequest;
+use App\Media;
 use App\Post;
 use App\Tag;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -26,7 +28,10 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('posts.index')->with('posts', Post::orderBy('id', 'DESC')->paginate(10))->with('user', Auth::user());
+        return view('admin.posts.index')->with('posts', Post::orderBy('id', 'DESC')->paginate(10))
+        ->with('user', Auth::user())
+        ->with('categories', Category::all())
+        ->with('tags', Tag::all());
     }
 
     /**
@@ -49,6 +54,27 @@ class PostsController extends Controller
      */
     public function store(CreatePostsRequest $request)
     {
+        $image = $request->file('image')->store(
+            'posts',
+            's3'
+        );
+        //set Image Visibility private
+        //Storage::disk('s3')->setVisibility($image,'private');
+        //set Image Visibility public
+        //Storage::disk('s3')->setVisibility($image,'public');// create the post
+        $post = Post::Create([
+            'title' => $request->title,
+            'slug' => str_slug($request->title),
+            'description'=> $request->description,
+            'content' => 'no content',
+            'published_at' => Carbon::parse($request->published_at),
+            'event_day' => Carbon::parse($request->event_day),
+            'category_id' => $request->category,
+            'user_id' => auth()->user()->id,
+            'image' => basename($image),
+            'imageUrl' => Storage::disk('s3')->url($image)
+        ]);
+
         // upload the image
         $detail = $request->content;
         libxml_use_internal_errors(true);
@@ -65,32 +91,18 @@ class PostsController extends Controller
                 Storage::disk('s3')->put($path, file_get_contents($src));
                 $image->removeAttribute('src');
                 $image->setAttribute('src', Storage::disk('s3')->url($path));
+                $media = new Media;
+                $media->mimeType = $mimeType;
+                $media->image = $path;
+                $media->url = Storage::disk('s3')->url($path);
+                $media->post_id = $post->id;
+                $media->save();
             }
         }
 
         $detail = $dom->savehtml();
-
-        //$extension = $request->image->extension();
-        //$image = Storage::putFileAs('posts', $request->image, time().'.'.$extension);
-        $image = $request->file('image')->store(
-            'posts',
-            's3'
-        );
-        //set Image Visibility private
-        //Storage::disk('s3')->setVisibility($image,'private');
-        //set Image Visibility public
-        //Storage::disk('s3')->setVisibility($image,'public');
-        // create the post
-        $post = Post::Create([
-            'title' => $request->title,
-            'description'=> $request->description,
-            'content' =>  $detail,
-            'published_at' => $request->published_at,
-            'category_id' => $request->category,
-            'user_id' => auth()->user()->id,
-            'image' => basename($image),
-            'imageUrl' => Storage::disk('s3')->url($image)
-        ]);
+        $post->content = $detail;
+        $post->save();
 
         if ($request->tags) {
             $post->tags()->attach($request->tags);
@@ -136,7 +148,7 @@ class PostsController extends Controller
      */
     public function update(UpdatePostsRequest $request, Post $post)
     {
-        $data = $request->only(['title','description','content','published_at']);
+        $detail = $post->content;
         //check if new image
         if ($request->hasFile('image')) {
             //if new image upload it
@@ -147,16 +159,59 @@ class PostsController extends Controller
             //delete old image
             $post->deleteImage();
             //update image data to be submitted
-            $data['image'] = basename($image);
-            $data['imageUrl'] = Storage::disk('s3')->url($image);
+            $post['image'] = basename($image);
+            $post['imageUrl'] = Storage::disk('s3')->url($image);
         }
 
+        //if content changes
+        if($post->content != $request->content){
+            $medias = Media::all()->where('post_id',$post->id);
+            if($medias){
+                //delete all images affiliated with content both on server and in database
+                foreach ($medias as $count => $media) {
+                    $media->deleteImage();
+                    $media->delete();
+                }
+            }
+            // upload the new images
+            $detail = $request->content;
+            libxml_use_internal_errors(true);
+            $dom = new \DOMDocument();
+            $dom->loadHtml($detail, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+
+            foreach ($images as $count => $image) {
+                $src = $image->getAttribute('src');
+                if (preg_match('/data:image/', $src)) {
+                    preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
+                    $mimeType = $groups['mime'];
+                    $path = '/posts/' . uniqid('', true) . '.' . $mimeType;
+                    Storage::disk('s3')->put($path, file_get_contents($src));
+                    $image->removeAttribute('src');
+                    $image->setAttribute('src', Storage::disk('s3')->url($path));
+                    $media = new Media;
+                    $media->mimeType = $mimeType;
+                    $media->image = $path;
+                    $media->url = Storage::disk('s3')->url($path);
+                    $media->post_id = $post->id;
+                    $media->save();
+                }
+            }
+        }
+
+        //update post data attributes
+        $post->title = $request->title;
+        $post->slug = str_slug($request->title);
+        $post->description = $request->description;
+        $post->content = $detail;
+        $post->published_at = Carbon::parse($request->published_at);
+        $post->event_day = Carbon::parse($request->event_day);
+        $post->category_id = $request->category;
+        $post->save();
+        //if new tags sync
         if ($request->tags) {
             $post->tags()->sync($request->tags);
         }
-
-        //update data attributes
-        $post->update($data);
 
         //flash message
         session()->flash('success', 'Post Updated Successfully');
@@ -171,9 +226,9 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        $post = Post::withTrashed()->where('id',$id)->firstOrFail();
+        $post = Post::withTrashed()->where('slug',$slug)->firstOrFail();
 
         if ($post->trashed())
         {
@@ -199,12 +254,16 @@ class PostsController extends Controller
     {
         $trashed = Post::onlyTrashed()->get();
 
-        return view('posts.index')->with('posts',$trashed);
+        return view('admin.posts.index')
+            ->with('posts',$trashed)
+            ->with('user', Auth::user())
+            ->with('categories', Category::all())
+            ->with('tags', Tag::all());
     }
 
-    public function restore($id)
+    public function restore($slug)
     {
-        $post = Post::withTrashed()->where('id',$id)->firstOrFail();
+        $post = Post::withTrashed()->where('slug',$slug)->firstOrFail();
 
         $post->restore();
 

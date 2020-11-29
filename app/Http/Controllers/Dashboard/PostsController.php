@@ -7,6 +7,7 @@ use App\Comment;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\Tag;
+use App\User;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -50,5 +51,13 @@ class PostsController extends Controller
         ->with('categories', Category::all())
         ->with('tags',Tag::all())
         ->with('posts', $tag->posts()->orderBy('id', 'DESC')->searched()->simplePaginate(4));
+    }
+
+    public function profile(User $user)
+    {
+        $posts = Post::all()->where('user_id',$user->id);
+        return view('profile.index')
+            ->with('user', $user)
+            ->with('posts', $posts);
     }
 }

@@ -44,14 +44,14 @@
                             <div class="card text-white bg-img h-300 mb-5" style="background-image: url({{ $post->imageUrl }});" data-overlay="6">
                                 <div class="row h-100 p-5">
                                     <div class="col-12">
-                                        <a class="text-white" href="{{route('dashboard.show',$post->id)}}">{{$post->category->name}}</a>
+                                        <a class="text-white" href="{{route('dashboard.show',$post->slug)}}">{{$post->category->name}}</a>
                                     </div>
 
                                     <div class="col-12 align-self-end">
-                                        <h3 class="card-title fw-200"><a href="{{route('dashboard.show',$post->id)}}">{{$post->title }}</a></h3>
+                                        <h3 class="card-title fw-200"><a href="{{route('dashboard.show',$post->slug)}}">{{$post->title }}</a></h3>
                                         <div class="media align-items-center">
                                         <img class="avatar avatar-xs mr-3" src="{{ Gravatar::src($post->user->email)}}" alt="...">
-                                        <div class="media-body">By {{ $post->user->name }}</div>
+                                        <div class="media-body">By <a href="{{route('dashboard.profile',$post->user->id)}}">{{ $post->user->name }}</a></div>
                                         </div>
                                     </div>
                                 </div>

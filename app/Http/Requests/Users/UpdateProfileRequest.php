@@ -24,8 +24,18 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'about' => 'required'
+            'username' => [
+                'required',
+                'max:255',
+                Rule::unique('posts', 'title')->ignore($this->user->id),
+            ],
+            'description' => 'required|max:255',
+            'avatar' => 'image|mimes:jpg,jpeg,png|max:5120|size:5120',
+            'header_image' => 'image|mimes:jpg,jpeg,png|max:5120|size:5120',
+            'location' => 'required',
+            'education' => 'required',
+            'bio' => 'required',
+            'job_id' => 'required'
         ];
     }
 }

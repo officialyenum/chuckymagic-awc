@@ -3,6 +3,7 @@
 
 use App\Post;
 use App\Category;
+use App\Job;
 use App\Tag;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -20,35 +21,40 @@ class PostsTableSeeder extends Seeder
         $author1 = User::create([
             'name' => 'Regina Alex',
             'email' => 'reggyalex@yahoo.com',
-            'role' => 'admin',
+            'role_id' => 2,
+            'job_id' => 2,
             'password' => Hash::make('password')
         ]);
 
         $author2 = User::create([
             'name' => 'Wole Of Lagos',
             'email' => 'wole@lagosnomad.com',
-            'role' => 'admin',
+            'role_id' => 2,
+            'job_id' => 1,
             'password' => Hash::make('password')
         ]);
 
         $author3 = User::create([
             'name' => 'Oreofe Olurin',
             'email' => 'oreofeolurin@gmail.com',
-            'role' => 'admin',
+            'role_id' => 2,
+            'job_id' => 1,
             'password' => Hash::make('password')
         ]);
 
         $author4 = User::create([
             'name' => 'Akintola Mobola',
             'email' => 'mobolaakintola@gmail.com',
-            'role' => 'admin',
+            'role_id' => 2,
+            'job_id' => 2,
             'password' => Hash::make('password')
         ]);
 
         $author5 = User::create([
             'name' => 'Moyin Oke',
             'email' => 'moyinoke@gmail.com',
-            'role' => 'admin',
+            'role_id' => 2,
+            'job_id' => 2,
             'password' => Hash::make('password')
         ]);
 
@@ -75,6 +81,7 @@ class PostsTableSeeder extends Seeder
         ]);
         $post1 = Post::create([
             'title' => 'November Hangout 2019',
+            'slug' => str_slug('November Hangout 2019'),
             'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category5->id,
@@ -84,6 +91,7 @@ class PostsTableSeeder extends Seeder
         ]);
         $post2 = $author1->posts()->create([
             'title' => 'December House party 2019',
+            'slug' => str_slug('December House party 2019'),
             'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category1->id,
@@ -92,6 +100,7 @@ class PostsTableSeeder extends Seeder
         ]);
         $post3 = $author3->posts()->create([
             'title' => 'December BurnaBoy Live 2020',
+            'slug' => str_slug('December BurnaBoy Live 2020'),
             'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category2->id,
@@ -100,6 +109,7 @@ class PostsTableSeeder extends Seeder
         ]);
         $post4 = $author2->posts()->create([
             'title' => 'January Hangout 2020',
+            'slug' => str_slug('January Hangout 2020'),
             'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category5->id,
@@ -108,6 +118,7 @@ class PostsTableSeeder extends Seeder
         ]);
         $post5 = Post::create([
             'title' => 'February Netflix Party 2020',
+            'slug' => str_slug('February Netflix Party 2020'),
             'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category4->id,
@@ -117,6 +128,7 @@ class PostsTableSeeder extends Seeder
         ]);
         $post6 = Post::create([
             'title' => 'COVID-19 Update',
+            'slug' => str_slug('COVID-19 Update'),
             'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'content' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
             'category_id' => $category7->id,

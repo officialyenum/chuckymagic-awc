@@ -78,7 +78,7 @@
                     </div>
                     <div class="card-body">
                         @auth
-                            <form action="{{ route('comments.store', $post->id)}}" method="POST">
+                            <form action="{{ route('comments.store', $post->slug)}}" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="form-group col-12 col-md-6">

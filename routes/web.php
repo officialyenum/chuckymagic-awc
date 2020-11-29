@@ -15,19 +15,21 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 })->name('welcome');
+
+Route::get('/', [PostsController::class, 'index'])->name('dashboard');
+Route::get('dashboard/posts/{post}', [PostsController::class, 'show'])->name('dashboard.show');
+Route::get('dashboard/categories/{category}', [PostsController::class, 'category'])->name('dashboard.category');
+Route::get('dashboard/tags/{tag}', [PostsController::class, 'tag'])->name('dashboard.tag');
 
 
 Auth::routes(['verify' => true]);
 //Auth::routes();
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [PostsController::class, 'index'])->name('dashboard');
-    Route::get('dashboard/posts/{post}', [PostsController::class, 'show'])->name('dashboard.show');
-    Route::get('dashboard/categories/{category}', [PostsController::class, 'category'])->name('dashboard.category');
-    Route::get('dashboard/tags/{tag}', [PostsController::class, 'tag'])->name('dashboard.tag');
+    Route::get('/profile/{user}', [PostsController::class, 'profile'])->name('dashboard.profile');
     Route::resource('categories', 'CategoriesController');
     Route::resource('tags', 'TagsController');
     Route::resource('posts', 'PostsController');
@@ -46,6 +48,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 }); */
 
 Route::middleware(['auth','verifyIsAdmin'])->group(function () {
+    Route::get('/admin/dashboard','Admin\DashboardController@index')->name('admin.dashboard');
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('users', 'UsersController@index')->name('users.index');
     Route::post('users/{user}/make-writer', 'UsersController@makeWriter')->name('users.make-writer');
@@ -55,3 +58,7 @@ Route::middleware(['auth','verifyIsAdmin'])->group(function () {
     Route::post('users/{user}/make-super-admin', 'UsersController@makeSuperAdmin')->name('users.make-super-admin');
     Route::post('users/{user}/remove-super-admin', 'UsersController@removeSuperAdmin')->name('users.remove-super-admin');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+

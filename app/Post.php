@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class Post extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['title','description','content','image','imageUrl','published_at','category_id','user_id'];
+    protected $fillable = ['title','slug','description','content','image','imageUrl','published_at','event_day','category_id','user_id'];
 
     public function deleteImage()
     {
@@ -65,5 +65,10 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class)->orderby('id','DESC');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

@@ -13,6 +13,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/page.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="{{ asset('img/apple-touch-icon.png') }}">
@@ -66,21 +68,21 @@
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                 @if (auth()->user()->isAdmin())
-                    <a class="dropdown-item" href="{{ route('home') }}">
+                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                         Admin Panel
                     </a>
                 @endif
                 @if (auth()->user()->isSuperAdmin())
-                    <a class="dropdown-item" href="{{ route('home') }}">
+                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                         Admin Panel
                     </a>
                 @endif
                 @if (auth()->user()->isWriter())
-                    <a class="dropdown-item" href="{{ route('home') }}">
+                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                         Admin Panel
                     </a>
                 @endif
-                <a class="dropdown-item" href="{{ route('users.edit-profile') }}">
+                <a class="dropdown-item" href="{{ route('dashboard.profile', Auth::user()->id ) }}">
                     My Profile
                 </a>
 
@@ -150,6 +152,8 @@
     <!-- Scripts -->
     <script src="{{asset('js/page.min.js')}}"></script>
     <script src="{{asset('js/script.js')}}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-540433b5029e06e8"></script>
   </body>
 </html>
