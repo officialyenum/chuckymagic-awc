@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Posts;
 
+use Facade\FlareClient\Http\Response;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Component\Console\Input\Input;
 
 class CreatePostsRequest extends FormRequest
 {
@@ -30,5 +33,6 @@ class CreatePostsRequest extends FormRequest
             'content' => 'required',
             'category' => 'required'
         ];
+
     }
 }

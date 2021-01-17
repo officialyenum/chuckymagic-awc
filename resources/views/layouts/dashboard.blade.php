@@ -150,10 +150,22 @@
 
 
     <!-- Scripts -->
+    <script>
+        let updateAvatarRoute = "{{ route('admin.dashboard') }}";
+        let updateHeaderRoute = "{{ route('admin.dashboard') }}";
+        let updateProfileRoute = "{{ route('admin.dashboard') }}";
+        console.log(updateAvatarRoute);
+        console.log(updateHeaderRoute);
+        console.log(updateProfileRoute);
+    </script>
     <script src="{{asset('js/page.min.js')}}"></script>
     <script src="{{asset('js/script.js')}}"></script>
+    <script type="text/javascript"  src="{{asset('js/function.js')}}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- Material Design -->
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-540433b5029e06e8"></script>
+
   </body>
 </html>

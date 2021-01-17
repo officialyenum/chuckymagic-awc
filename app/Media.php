@@ -9,9 +9,9 @@ class Media extends Model
 {
     protected $fillable = ['mimeType','path','url','post_id'];
 
-    public function post()
+    public function user()
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(User::class);
     }
 
     public function deleteImage()

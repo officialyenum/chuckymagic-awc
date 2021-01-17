@@ -30,7 +30,14 @@
                         </button>
                     </div>
                 </div>
-
+                {{-- @if(Session::has('success'))
+                    <div class="alert {{ Session::get('alert-class', 'alert-info') }} alert-dismissible fade show alert-block" role="alert">
+                        {{ Session::get("success") }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif --}}
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Post</h3>
@@ -101,7 +108,7 @@
                                         </div>
                                     </tr>
                                     <!--Edit Modal -->
-                                    <div class="modal fade" id="editPost-{{ $post->id }}" tabindex="-1" role="dialog" aria-labelledby="editPostLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                                    <div class="modal fade" id="editPost-{{ $post->id }}" tabindex="-1" role="dialog" aria-labelledby="editPostLabel" aria-hidden="true" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                         <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
                                                     <div class="modal-header">
@@ -111,15 +118,15 @@
                                                                 </button>
                                                         </div>
 
-                                                @include('partials.errors')
-                                                <form action="{{ route('posts.update',$post->slug) }}" method="POST" enctype="multipart/form-data">
+                                                <div id='pleaseWaitEdit-{{$post->id}}' class="text-center" style="display: none"><img class="m-auto" src='https://media.giphy.com/media/feN0YJbVs0fwA/giphy.gif'/></div>
+                                                <form id="editPostForm-{{ $post->id }}" action="{{ route('posts.update',$post->slug) }}" class="form" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-body">
                                                         <div class="container-fluid">
                                                                 <div class="form-group">
                                                                     <label for="title-{{$post->id}}">Title</label>
-                                                                    <input type="text" class="form-control" name="title" id="title-{{$post->id}}" value="{{ $post->title}}">
+                                                                    <input type="text" class="form-control" name="title" id="title-{{$post->id}}" value="{{ $post->title}}" oninput="enableButton('editPostButton-{{ $post->id }}')">
                                                                 </div>
 
                                                                 {{-- <div class="form-group">
@@ -129,7 +136,7 @@
                                                                 </div> --}}
                                                                 <label for="image-{{$post->id}}">Header Image</label>
                                                                 <div class="custom-file">
-                                                                    <input type="file" class="custom-file-input" name="image" id="image-{{$post->id}}">
+                                                                    <input type="file" class="custom-file-input" name="image" id="image-{{$post->id}}"  oninput="enableButton('editPostButton-{{ $post->id }}')">
                                                                     <label class="custom-file-label" for="image">"{{ $post->image}}"</label>
                                                                 </div>
                                                                 <div class="form-group">
@@ -137,11 +144,11 @@
                                                                 </div>
                                                                 <div class="form-group my-2">
                                                                     <label for="description">Description</label>
-                                                                    <textarea name="description" id="description-{{$post->id}}" cols="5" rows="5" class="form-control">{{ $post->description }}</textarea>
+                                                                    <textarea name="description" id="description-{{$post->id}}" cols="5" rows="5" class="form-control"  oninput="enableButton('editPostButton-{{ $post->id }}')">{{ $post->description }}</textarea>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="content-{{$post->id}}">Content</label>
-                                                                    <textarea name="content" class="summernote">{!! $post->content !!}</textarea>
+                                                                    <textarea name="content" class="summernote"  oninput="enableButton('editPostButton-{{ $post->id }}')">{!! $post->content !!}</textarea>
                                                                     {{--@trix(\App\Post::class, 'content')--}}
                                                                     {{-- <label for="content">Content</label>
                                                                     <input id="content" type="hidden" name="content" value="{{ isset($post) ? $post->content : ''}}">
@@ -150,7 +157,7 @@
                                                                 <div class="form-group">
                                                                     <label for="published-{{$post->id}}">Published At</label>
                                                                     <div class="input-group date" id="published-{{$post->id}}" data-target-input="nearest">
-                                                                        <input type="datetime" class="form-control datetimepicker-input" data-target="#published-{{$post->id}}"  name="published_at" value="{{ $post->published_at}}"/>
+                                                                        <input type="datetime" class="form-control datetimepicker-input" data-target="#published-{{$post->id}}"  name="published_at" value="{{ $post->published_at}}"  oninput="enableButton('editPostButton-{{ $post->id }}')"/>
                                                                         <div class="input-group-append" data-target="#published-{{$post->id}}" data-toggle="datetimepicker">
                                                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                                         </div>
@@ -159,7 +166,7 @@
                                                                 <div class="form-group">
                                                                     <label for="event-{{$post->id}}">Event Day</label>
                                                                     <div class="input-group date" id="event-{{$post->id}}" data-target-input="nearest">
-                                                                        <input type="datetime" class="form-control datetimepicker-input" data-target="#event-{{$post->id}}" name="event_day" value="{{ $post->event_day }}"/>
+                                                                        <input type="datetime" class="form-control datetimepicker-input" data-target="#event-{{$post->id}}" name="event_day" value="{{ $post->event_day }}"  oninput="enableButton('editPostButton-{{ $post->id }}')"/>
                                                                         <div class="input-group-append" data-target="#event-{{$post->id}}" data-toggle="datetimepicker">
                                                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                                         </div>
@@ -167,7 +174,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="category">Category</label>
-                                                                    <select name="category" id="category-{{$post->id}}" class="form-control">
+                                                                    <select name="category" id="category-{{$post->id}}" class="form-control"  onchange="enableButton('editPostButton-{{ $post->id }}')">
                                                                         @if (isset($categories))
                                                                             @foreach ($categories as $category)
                                                                                 <option value="{{ $category->id }}"
@@ -185,7 +192,7 @@
                                                                     @if ($tags->count() > 0)
                                                                     <div class="form-group">
                                                                         <label for="tags">Tags</label>
-                                                                        <select name="tags[]" id="tags-{{$post->id}}" class="form-control tags-selector" multiple="multiple" data-placeholder="Select Features" style="width: 100%;">
+                                                                        <select name="tags[]" id="tags-{{$post->id}}" class="form-control tags-selector" multiple="multiple" data-placeholder="Select Features" style="width: 100%;" onchange="enableButton('editPostButton-{{ $post->id }}')">
                                                                             @foreach ($tags as $tag)
                                                                             <option value="{{ $tag->id }}"
                                                                                 @if ($post->hasTag($tag->id))
@@ -203,8 +210,10 @@
                                                     </div>
                                                     <div class="modal-footer justify-content-between">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-success">Update Post</button>
+                                                        <button id="editPostButton-{{ $post->id }}" disabled type="button" class="btn btn-success" onclick="updatePost('editPostForm-{{ $post->id }}', 'pleaseWaitEdit-{{$post->id}}')">Update Post</button>
                                                     </div>
+                                                    <div class="lock-modal"></div>
+                                                    <div class="loading-circle"></div>
                                                 </form>
                                             </div>
                                         </div>
@@ -264,7 +273,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="createPost" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="createPostLabel" aria-hidden="true">
+<div class="modal fade" id="createPost" data-toggle="modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="createPostLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
                 <div class="modal-header">
@@ -273,96 +282,100 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                     </div>
-            @include('partials.errors')
-            <form action="{{ route('posts.store')}}" method="POST" enctype="multipart/form-data">
-                    @csrf
-            <div class="modal-body">
-                    <div class="form-group">
-                        <label for="title">Title</label>
-                        <input type="text" class="form-control" name="title" id="title" value="">
-                    </div>
-                    <label for="image">Header Image</label>
-                    {{-- <div class="form-group">
-                        <label for="image">Header Image</label>
-                        <input type="file" class="custom-file-input form-control" name="image" id="image">
 
-                    </div> --}}
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="image" id="image" value="">
-                        <label class="custom-file-label" for="image"></label>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea name="description" id="description" cols="5" rows="5" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="content">Content</label>
-                        <textarea name="content" class="summernote"></textarea>
-                        {{-- @trix(\App\Post::class, 'content') --}}
-                        {{-- <label for="content">Content</label> --}}
-                        {{-- <input id="content" type="hidden" name="content" value="{{ isset($post) ? $post->content : ''}}"> --}}
-                        {{-- <trix-editor input="content"></trix-editor> --}}
-                    </div>
-                    {{-- <div class="form-group">
-                        <label for="published_at">Published At</label>
-                        <input type="text" class="form-control datetimepicker-input" name="published_at" id="published_at" value="">
-                    </div> --}}
-                    <div class="form-group">
-                        <label for="published_at">Published At</label>
-                        <div class="input-group date" id="published_at" data-target-input="nearest">
-                            <input type="datetime" class="form-control datepicker datetimepicker-input" data-target="#published_at"  name="published_at" value=""/>
-                            <div class="input-group-append" data-target="#published_at" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- <div class="form-group">
-                        <label for="event_day">Event Day</label>
-                        <input type="text" class="form-control" name="event_day" id="event_day" value="{{ isset($post) ? $post->event_day : ''}}">
-                    </div> --}}
-                    <div class="form-group">
-                        <label for="event_day">Event Day</label>
-                        <div class="input-group date" id="event_day" data-target-input="nearest">
-                            <input type="datetime" class="form-control datepicker datetimepicker-input" data-target="#event_day" name="event_day" value=""/>
-                            <div class="input-group-append" data-target="#event_day" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="category">Category</label>
-                        <select name="category" id="category" class="form-control">
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" selected>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    @if ($tags->count() > 0)
+            <div id='PleaseWaitCreate' class="text-center" style="display: none"><img class="m-auto" src='https://media.giphy.com/media/feN0YJbVs0fwA/giphy.gif'/></div>
+            {{-- @include('partials.errors') --}}
+            <form id="createPostForm" action="{{ route('posts.store')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                <div class="modal-body">
                         <div class="form-group">
-                            <label for="tags">Tags</label>
-                            <select name="tags[]" id="tags" class="form-control tags-selector" multiple="multiple" data-placeholder="Select Features" style="width: 100%;">
-                                @foreach ($tags as $tag)
-                                    <option value="{{ $tag->id }}"
-                                        @if (isset($post))
-                                            @if ($post->hasTag($tag->id))
-                                                selected
-                                            @endif
-                                        @endif
-                                        >
-                                        {{ $tag->name }}
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" name="title" id="title" value="">
+                        </div>
+                        <label for="image">Header Image</label>
+                        {{-- <div class="form-group">
+                            <label for="image">Header Image</label>
+                            <input type="file" class="custom-file-input form-control" name="image" id="image">
+
+                        </div> --}}
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" name="image" id="image" value="">
+                            <label class="custom-file-label" for="image"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea name="description" id="description" cols="5" rows="5" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Content</label>
+                            <textarea name="content" class="summernote"></textarea>
+                            {{-- @trix(\App\Post::class, 'content') --}}
+                            {{-- <label for="content">Content</label> --}}
+                            {{-- <input id="content" type="hidden" name="content" value="{{ isset($post) ? $post->content : ''}}"> --}}
+                            {{-- <trix-editor input="content"></trix-editor> --}}
+                        </div>
+                        {{-- <div class="form-group">
+                            <label for="published_at">Published At</label>
+                            <input type="text" class="form-control datetimepicker-input" name="published_at" id="published_at" value="">
+                        </div> --}}
+                        <div class="form-group">
+                            <label for="published_at">Published At</label>
+                            <div class="input-group date" id="published_at" data-target-input="nearest">
+                                <input type="datetime" class="form-control datepicker datetimepicker-input" data-target="#published_at"  name="published_at" value=""/>
+                                <div class="input-group-append" data-target="#published_at" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <div class="form-group">
+                            <label for="event_day">Event Day</label>
+                            <input type="text" class="form-control" name="event_day" id="event_day" value="{{ isset($post) ? $post->event_day : ''}}">
+                        </div> --}}
+                        <div class="form-group">
+                            <label for="event_day">Event Day</label>
+                            <div class="input-group date" id="event_day" data-target-input="nearest">
+                                <input type="datetime" class="form-control datepicker datetimepicker-input" data-target="#event_day" name="event_day" value=""/>
+                                <div class="input-group-append" data-target="#event_day" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select name="category" id="category" class="form-control">
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" selected>
+                                        {{ $category->name }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
-                    @endif
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success">Add Post</button>
-            </div>
-        </form>
+                        @if ($tags->count() > 0)
+                            <div class="form-group">
+                                <label for="tags">Tags</label>
+                                <select name="tags[]" id="tags" class="form-control tags-selector" multiple="multiple" data-placeholder="Select Features" style="width: 100%;">
+                                    @foreach ($tags as $tag)
+                                        <option value="{{ $tag->id }}"
+                                            @if (isset($post))
+                                                @if ($post->hasTag($tag->id))
+                                                    selected
+                                                @endif
+                                            @endif
+                                            >
+                                            {{ $tag->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" onclick="createPost('createPostForm')">Add Post</button>
+                </div>
+                <div class="lock-modal"></div>
+                <div class="loading-circle"></div>
+            </form>
         </div>
     </div>
 </div>
@@ -382,6 +395,27 @@
     {{-- <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script> --}}
     <script>
         $(function () {
+            var errors = @json($errors->all());
+            var message = "{{ session()->has('success') }}";
+            console.log("{{ session()->has('success') }}");
+            if (message) {
+                Swal.fire({
+                    icon: 'success',
+                    title: "{{ session()->get('success') }}",
+                    showConfirmButton: false,
+                    timer: 3000
+                })
+            }
+            console.log(message);
+            if (errors.length > 0) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: errors[0],
+                    showConfirmButton: false,
+                    timer: 4000
+                })
+            }
             bsCustomFileInput.init();
             $('.summernote').summernote({
                 tabsize: 2,
@@ -410,17 +444,41 @@
                 }
                 $('.custom-file-label').val(filename);
             });
-
-
             //Initialize Select2 Elements
             // $('.tags-selector').select2({
             //     theme: 'bootstrap4'
             // })
-
-
         });
     </script>
     <script>
+        function createPost(formId) {
+            var form = document.getElementById(formId)
+            console.log(form);
+            form.style.display = 'none';
+            var processing = document.createElement('span');
+            processing.appendChild(image);
+            processing.appendChild(document.createTextNode('processing ...'));
+            form.parentNode.insertBefore(processing, form);
+            form.submit();
+            $("#overlay, #PleaseWaitCreate").show();
+        }
+
+        function updatePost(formId, pleaseWaitEdit) {
+            console.log(formId);
+            var form = document.getElementById(formId)
+            console.log(form);
+            form.style.display = 'none';
+            var processing = document.createElement('span');
+            processing.appendChild(image);
+            processing.appendChild(document.createTextNode('processing ...'));
+            form.parentNode.insertBefore(processing, form);
+            form.submit();
+            $(`#overlay, #${pleaseWaitEdit}`).show();
+        }
+        function enableButton(btnId) {
+            console.log(btnId);
+            document.getElementById(btnId).disabled = false;
+        }
         function handleDelete(slug) {
             var form = document.getElementById('deletePostForm')
             form.action = 'posts/' + slug

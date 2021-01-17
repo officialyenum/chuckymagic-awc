@@ -110,6 +110,7 @@ class PostsController extends Controller
 
         // flash the message
         session()->flash('success', 'Post created successfully');
+        session()->flash('alert-class', 'alert-success');
 
         // redirect the user
         return redirect(route('posts.index'));
@@ -215,6 +216,7 @@ class PostsController extends Controller
 
         //flash message
         session()->flash('success', 'Post Updated Successfully');
+        session()->flash('alert-class', 'alert-success');
 
         //redirect user
         return redirect(route('posts.index'));
@@ -241,6 +243,7 @@ class PostsController extends Controller
         }
 
         session()->flash('success', 'Post deleted successfully');
+        session()->flash('alert-class', 'alert-danger');
         return redirect(route('posts.index'));
     }
 
@@ -268,6 +271,7 @@ class PostsController extends Controller
         $post->restore();
 
         session()->flash('success', 'Post restored successfully');
+        session()->flash('alert-class', 'alert-success');
         return redirect(route('posts.index'));
     }
 }

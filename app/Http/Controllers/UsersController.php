@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Users\UpdateAvatarRequest;
+use App\Http\Requests\Users\UpdateHeaderRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
+use App\Media;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,6 +14,7 @@ class UsersController extends Controller
 {
     public function index()
     {
+        $user = auth()->user;
         return view('admin.users.index')->with('users', User::all());
     }
 
@@ -68,6 +72,64 @@ class UsersController extends Controller
 
     }
 
+    public function updateAvatar(UpdateAvatarRequest $request, User $user)
+    {
+        dd($request);
+        $image = $request->file('avatar')->store(
+            'posts',
+            's3'
+        );
+        //set Image Visibility private
+        //Storage::disk('s3')->setVisibility($image,'private');
+        //set Image Visibility public
+        Storage::disk('s3')->setVisibility($image,'public');// create the post
+
+        $media = new Media;
+        $media->mimeType = $request->mimeType;
+        $media->image = basename($image);
+        $media->url = Storage::disk('s3')->url($image);
+        $media->user_id = $user->id;
+        $media->save();
+
+        $user->avatar = $media->url;
+        $user->save();
+
+        // return response()->json([
+        //     'message' => 'Profile Avatar updated successfully',
+        //     'status' => 'success',
+        //     'data' => $request
+        // ]);
+
+        session()->flash('success','Profile Avatar updated successfully');
+        return redirect()->route('profile.index');
+    }
+
+    public function updateHeader(UpdateHeaderRequest $request, User $user)
+    {
+        dd($request);
+        $image = $request->file('header_image')->store(
+            'posts',
+            's3'
+        );
+        //set Image Visibility private
+        //Storage::disk('s3')->setVisibility($image,'private');
+        //set Image Visibility public
+        // Storage::disk('s3')->setVisibility($image,'public');// create the post
+
+        $media = new Media;
+        $media->mimeType = $request->mimeType;
+        $media->image = basename($image);
+        $media->url = Storage::disk('s3')->url($image);
+        $media->user_id = $user->id;
+        $media->save();
+
+        $user->header_image = $media->url;
+        $user->save();
+
+        session()->flash('success','Profile Header Image updated successfully');
+        return redirect()->route('profile.index');
+    }
+
     public function edit()
     {
         return view('users.edit')->with('user',auth()->user());
@@ -76,58 +138,15 @@ class UsersController extends Controller
     public function update(UpdateProfileRequest $request)
     {
         $user = auth()->user();
-
-        $avatar = '';
-        $header_image = '';
-        if ($request->hasFile('avatar')) {
-            //if new image upload it
-            $avatar = $request->file('avatar')->store(
-                'users',
-                's3'
-            );
-            //delete old image
-            if ($user->avatar) {
-                $user->deleteAvatarImage();
-            }
-        } else {
-            $avatar = $request->file('avatar')->store(
-                'users',
-                's3'
-            );
-            if ($user->avatar) {
-                $user->deleteAvatarImage();
-            }
-        };
-        if ($request->hasFile('header_image')) {
-            //if new image upload it
-            $avatar = $request->file('avatar')->store(
-                'users',
-                's3'
-            );
-            //delete old image
-            if($user->header_image){
-                $user->deleteHeaderImage();
-            }
-        } else {
-            $header_image = $request->file('header_image')->store(
-                'users',
-                's3'
-            );
-            if($user->header_image){
-                $user->deleteHeaderImage();
-            }
-        };
-        $user = auth()->user();
         $user->update([
             'username' => $request->username,
-            'avatar' => Storage::disk('s3')->url($avatar),
-            'header_image' => Storage::disk('s3')->url($header_image),
             'location' => $request->location,
             'education' => $request->education,
             'bio' => $request->bio,
             'job_id' => $request->job_id,
         ]);
+
         session()->flash('success','User Profile Updated Successfully');
-        return redirect()->back();
+        return redirect()->route('profile.index');
     }
 }

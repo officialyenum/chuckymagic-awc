@@ -7,14 +7,23 @@
 @section('header')
     <!-- Header -->
     <header class="header bg-dark">
+    @if (isset($user->header_image))
+        <div class="container text-center bg-img h-300 mb-5" style="background-image: url({{ $user->header_image }});" data-overlay="6">
+    @else
         <div class="container text-center">
+    @endif
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Profile</li>
             </ol>
         </nav>
-        {{-- <h1 class="display-4 text-white mb-6"><strong>{{$user->name}}</strong></h1> --}}
+        @auth
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#headerImageId">
+                Edit Header Image
+            </button>
+        @endauth
         </div>
     </header><!-- /.header -->
 @endsection
@@ -51,12 +60,20 @@
                 <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
                         <div class="text-center">
-                            <img class="avatar" src="{{ Gravatar::src($user->email)}}" alt="...">
+                            <img class="avatar" src="{{  $user->avatar ?? Gravatar::src($user->email)}}" alt="...">
                         </div>
+                        @auth
+                        <div class="text-center">
+                            <!-- Button trigger modal -->
+                            <i type="button" class="btn fas fa-pencil-alt ml-8" data-toggle="modal" data-target="#avatarImageId" aria-hidden="true"></i>
+                            {{-- <a name="" id="editHeader" class="btn btn-primary" href="#" role="button"></a> --}}
+                            {{-- <h1 class="display-4 text-white mb-6"><strong>{{$user->name}}</strong></h1> --}}
+                        </div>
+                        @endauth
 
                         <h3 class="profile-username text-center">{{$user->name}}</h3>
 
-                        <p class="text-muted text-center">Software Engineer</p>
+                        <p class="text-muted text-center">{{$user->job->name}}</p>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -72,25 +89,23 @@
                     <strong><i class="fas fa-book mr-1"></i> Education</strong>
 
                     <p class="text-muted">
-                        B.S. in Computer Science from the University of Tennessee at Knoxville
+                        {{$user->education ?? "B.S. in Computer Science from the University of Tennessee at Knoxville"}}
                     </p>
 
                     <hr>
 
                     <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
 
-                    <p class="text-muted">Malibu, California</p>
+                    <p class="text-muted">{{$user->location ?? "Malibu, California"}}</p>
 
                     <hr>
 
                     <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
 
                     <p class="text-muted">
-                        <span class="tag tag-danger">UI Design</span>
-                        <span class="tag tag-success">Coding</span>
-                        <span class="tag tag-info">Javascript</span>
-                        <span class="tag tag-warning">PHP</span>
-                        <span class="tag tag-primary">Node.js</span>
+                        @foreach ($user->skills as $skill)
+                            <span class="tag tag-danger">{{$skill->name}}</span>
+                        @endforeach
                     </p>
 
                     <hr>
@@ -269,106 +284,72 @@
                         <!-- /.tab-pane -->
                         <div class="tab-pane" id="timeline">
                             <!-- The timeline -->
-                            <div class="timeline timeline-inverse">
-                                <!-- timeline time label -->
-                                <div class="time-label">
-                                <span class="bg-danger">
-                                    10 Feb. 2014
-                                </span>
-                                </div>
-                                <!-- /.timeline-label -->
-                                <!-- timeline item -->
-                                <div>
-                                <i class="fas fa-envelope bg-primary"></i>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="timeline-alt pb-0">
+                                        <div class="timeline-item">
+                                            <i class="mdi mdi-upload bg-info-lighten text-info timeline-icon"></i>
+                                            <div class="timeline-item-info">
+                                                <a href="#" class="text-info font-weight-bold mb-1 d-block">You sold an item</a>
+                                                <small>Paul Burgess just purchased “Hyper - Admin Dashboard”!</small>
+                                                <p>
+                                                    <small class="text-muted">5 minutes ago</small>
+                                                </p>
+                                            </div>
+                                        </div>
 
-                                <div class="timeline-item">
-                                    <span class="time"><i class="far fa-clock"></i> 12:05</span>
+                                        <div class="timeline-item">
+                                            <i class="mdi mdi-airplane bg-primary-lighten text-primary timeline-icon"></i>
+                                            <div class="timeline-item-info">
+                                                <a href="#" class="text-primary font-weight-bold mb-1 d-block">Product on the Bootstrap Market</a>
+                                                <small>Dave Gamache added
+                                                    <span class="font-weight-bold">Admin Dashboard</span>
+                                                </small>
+                                                <p>
+                                                    <small class="text-muted">30 minutes ago</small>
+                                                </p>
+                                            </div>
+                                        </div>
 
-                                    <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+                                        <div class="timeline-item">
+                                            <i class="mdi mdi-microphone bg-info-lighten text-info timeline-icon"></i>
+                                            <div class="timeline-item-info">
+                                                <a href="#" class="text-info font-weight-bold mb-1 d-block">Robert Delaney</a>
+                                                <small>Send you message
+                                                    <span class="font-weight-bold">"Are you there?"</span>
+                                                </small>
+                                                <p>
+                                                    <small class="text-muted">2 hours ago</small>
+                                                </p>
+                                            </div>
+                                        </div>
 
-                                    <div class="timeline-body">
-                                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                    weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                    jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                    quora plaxo ideeli hulu weebly balihoo...
+                                        <div class="timeline-item">
+                                            <i class="mdi mdi-upload bg-primary-lighten text-primary timeline-icon"></i>
+                                            <div class="timeline-item-info">
+                                                <a href="#" class="text-primary font-weight-bold mb-1 d-block">Audrey Tobey</a>
+                                                <small>Uploaded a photo
+                                                    <span class="font-weight-bold">"Error.jpg"</span>
+                                                </small>
+                                                <p>
+                                                    <small class="text-muted">14 hours ago</small>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="timeline-footer">
-                                    <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                    </div>
-                                </div>
-                                </div>
-                                <!-- END timeline item -->
-                                <!-- timeline item -->
-                                <div>
-                                <i class="fas fa-user bg-info"></i>
-
-                                <div class="timeline-item">
-                                    <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
-
-                                    <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request
-                                    </h3>
-                                </div>
-                                </div>
-                                <!-- END timeline item -->
-                                <!-- timeline item -->
-                                <div>
-                                <i class="fas fa-comments bg-warning"></i>
-
-                                <div class="timeline-item">
-                                    <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
-
-                                    <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                                    <div class="timeline-body">
-                                    Take me to your leader!
-                                    Switzerland is small and neutral!
-                                    We are more like Germany, ambitious and misunderstood!
-                                    </div>
-                                    <div class="timeline-footer">
-                                    <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                                    </div>
-                                </div>
-                                </div>
-                                <!-- END timeline item -->
-                                <!-- timeline time label -->
-                                <div class="time-label">
-                                <span class="bg-success">
-                                    3 Jan. 2014
-                                </span>
-                                </div>
-                                <!-- /.timeline-label -->
-                                <!-- timeline item -->
-                                <div>
-                                <i class="fas fa-camera bg-purple"></i>
-
-                                <div class="timeline-item">
-                                    <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-
-                                    <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                                    <div class="timeline-body">
-                                    <img src="http://placehold.it/150x100" alt="...">
-                                    <img src="http://placehold.it/150x100" alt="...">
-                                    <img src="http://placehold.it/150x100" alt="...">
-                                    <img src="http://placehold.it/150x100" alt="...">
-                                    </div>
-                                </div>
-                                </div>
-                                <!-- END timeline item -->
-                                <div>
-                                <i class="far fa-clock bg-gray"></i>
                                 </div>
                             </div>
                         </div>
                         <!-- /.tab-pane -->
 
                         <div class="tab-pane" id="settings">
-                            <form class="form-horizontal">
+                            <form action="{{ route('users.update-profile')}}" method="POST" class="form-horizontal">
+                                @csrf
+                                @method('PUT')
                                 <div class="form-group row">
                                 <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                    <input type="email" class="form-control" id="inputName" placeholder="Name" value="">
                                 </div>
                                 </div>
                                 <div class="form-group row">
@@ -433,5 +414,84 @@
         </aside>
         <!-- /.control-sidebar -->
     </div>
+    <!-- Avatar Modal -->
+    <div class="modal fade" id="avatarImageId" tabindex="-1" role="dialog" aria-labelledby="avatarImageId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title">Update Avatar</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                <div class="modal-body">
+                    @if (isset($user->avatar))
+                        <div class="form-group">
+                            <img src="{{ $user->avatar }}" alt="image" width="100%">
+                        </div>
+                    @endif
+                    <div class="container-fluid">
+                        <form action="{{ route('users.update-avatar', $user->id)}}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                        <div class="form-group">
+                            <label for="avatar">Avatar</label>
+                            <input type="file" class="form-control" name="avatar" id="avatar">
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">
+                                Update Avatar
+                            </button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Image Modal -->
+    <div class="modal fade" id="headerImageId" tabindex="-1" role="dialog" aria-labelledby="headerImageId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title">Update Image Header</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                <div class="modal-body">
+                    @if (isset($user->header_image))
+                        <div class="form-group">
+                            <img src="{{ $user->header_image }}" alt="image" width="100%">
+                        </div>
+                    @endif
+                    <div class="container-fluid">
+                        <form action="{{ route('users.update-header', $user->id)}}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label for="header_image">Header Image</label>
+                                <input type="file" class="form-control" name="header_image" id="header_image">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success">
+                                    Update Header Image
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#exampleModal').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            // Use above variables to manipulate the DOM
+
+        });
+    </script>
 @endsection
 

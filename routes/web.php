@@ -38,6 +38,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('restore-posts/{post}', 'PostsController@restore')->name('restore-posts');
     Route::get('users/profile', 'UsersController@edit')->name('users.edit-profile');
     Route::put('users/profile', 'UsersController@update')->name('users.update-profile');
+    Route::post('users/{user}/update-avatar', 'UsersController@updateAvatar')->name('users.update-avatar');
+    Route::post('users/{user}/update-header', 'UsersController@updateHeader')->name('users.update-header');
 });
 
 /* Route::middleware(['verifyIsAdmin'])->group(function () {

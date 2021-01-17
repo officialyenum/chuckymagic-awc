@@ -79,6 +79,11 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function medias()
+    {
+        return $this->hasMany(Media::class);
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class);
@@ -92,5 +97,17 @@ class User extends Authenticatable
     public function skills()
     {
         return $this->belongsToMany(Skill::class);
+    }
+
+    /**
+     * check if user has skill
+     *
+     * @return bool
+     *
+     */
+
+    public function hasSkill($skillId)
+    {
+        return in_array($skillId, $this->skills->pluck('id')->toArray());
     }
 }
