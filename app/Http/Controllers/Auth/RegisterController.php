@@ -49,10 +49,18 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        Validator::extend('valid_username', function($attr, $value){
+
+            return preg_match('/^\S*$/u', $value);
+
+        });
+
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'valid_username','min:6','max:100',''],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'valid_username' => 'please enter valid username.'
         ]);
     }
 

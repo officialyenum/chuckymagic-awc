@@ -6,12 +6,12 @@
 
 @section('header')
     <!-- Header -->
-    <header class="header bg-dark">
     @if (isset($user->header_image))
-        <div class="container text-center bg-img h-300 mb-5" style="background-image: url({{ $user->header_image }});" data-overlay="6">
+        <header class="header bg-dark bg-img h-300 mb-5" style="background-image: url({{ $user->header_image }});" data-overlay="6">
     @else
-        <div class="container text-center">
+        <header class="header bg-dark">
     @endif
+        <div class="container text-center">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -439,6 +439,7 @@
                         </div>
 
                         <div class="form-group">
+                            {{-- <input type="button" value="Update Avatar" onclick="uploadAvatar()"> --}}
                             <button type="submit" class="btn btn-success">
                                 Update Avatar
                             </button>

@@ -6,6 +6,7 @@ use App\Http\Requests\Users\UpdateAvatarRequest;
 use App\Http\Requests\Users\UpdateHeaderRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Media;
+use App\Post;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -72,9 +73,8 @@ class UsersController extends Controller
 
     }
 
-    public function updateAvatar(UpdateAvatarRequest $request, User $user)
+    public function updateAvatar(Request $request, User $user)
     {
-        dd($request);
         $image = $request->file('avatar')->store(
             'posts',
             's3'
@@ -82,10 +82,13 @@ class UsersController extends Controller
         //set Image Visibility private
         //Storage::disk('s3')->setVisibility($image,'private');
         //set Image Visibility public
-        Storage::disk('s3')->setVisibility($image,'public');// create the post
+        // Storage::disk('s3')->setVisibility($image,'public');// create the post
+
+        $size = getimagesize($request->file('avatar'));
+        $mime = $size['mime'];
 
         $media = new Media;
-        $media->mimeType = $request->mimeType;
+        $media->mimeType = $mime;
         $media->image = basename($image);
         $media->url = Storage::disk('s3')->url($image);
         $media->user_id = $user->id;
@@ -101,12 +104,14 @@ class UsersController extends Controller
         // ]);
 
         session()->flash('success','Profile Avatar updated successfully');
-        return redirect()->route('profile.index');
+        $posts = Post::all()->where('user_id',$user->id);
+        return view('profile.index')
+            ->with('user', $user)
+            ->with('posts', $posts);
     }
 
-    public function updateHeader(UpdateHeaderRequest $request, User $user)
+    public function updateHeader(Request $request, User $user)
     {
-        dd($request);
         $image = $request->file('header_image')->store(
             'posts',
             's3'
@@ -116,8 +121,11 @@ class UsersController extends Controller
         //set Image Visibility public
         // Storage::disk('s3')->setVisibility($image,'public');// create the post
 
+        $size = getimagesize($request->file('header_image'));
+        $mime = $size['mime'];
+
         $media = new Media;
-        $media->mimeType = $request->mimeType;
+        $media->mimeType = $mime;
         $media->image = basename($image);
         $media->url = Storage::disk('s3')->url($image);
         $media->user_id = $user->id;
@@ -127,7 +135,10 @@ class UsersController extends Controller
         $user->save();
 
         session()->flash('success','Profile Header Image updated successfully');
-        return redirect()->route('profile.index');
+        $posts = Post::all()->where('user_id',$user->id);
+        return view('profile.index')
+            ->with('user', $user)
+            ->with('posts', $posts);
     }
 
     public function edit()
@@ -147,6 +158,9 @@ class UsersController extends Controller
         ]);
 
         session()->flash('success','User Profile Updated Successfully');
-        return redirect()->route('profile.index');
+        $posts = Post::all()->where('user_id',$user->id);
+        return view('profile.index')
+            ->with('user', $user)
+            ->with('posts', $posts);
     }
 }
