@@ -23,6 +23,11 @@ class PostsController extends Controller
         ->with('posts', Post::orderBy('id', 'DESC')->searched()->simplePaginate(4));
     }
 
+    public function about()
+    {
+        return view('dashboard.about');
+    }
+
     public function show(Post $post)
     {
         return view('dashboard.show')

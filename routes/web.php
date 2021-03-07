@@ -21,6 +21,7 @@ Route::get('/welcome', function () {
 
 Route::get('/', [PostsController::class, 'index'])->name('dashboard');
 Route::get('dashboard/posts/{post}', [PostsController::class, 'show'])->name('dashboard.show');
+Route::get('dashboard/about', [PostsController::class, 'about'])->name('dashboard.about');
 Route::get('dashboard/categories/{category}', [PostsController::class, 'category'])->name('dashboard.category');
 Route::get('dashboard/tags/{tag}', [PostsController::class, 'tag'])->name('dashboard.tag');
 

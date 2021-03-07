@@ -24,21 +24,22 @@
   <body>
 
     <!-- Topbar -->
-    <section class="topbar d-lg-flex position-static">
+    {{-- <section class="topbar d-lg-flex position-static">
         <div class="container small-3">
           <nav class="nav">
           </nav>
           <div class="col-6 col-lg-3 text-right order-lg-last">
             <div class="social">
-              <a class="social-facebook" href="https://www.facebook.com/thethemeio"><i class="fa fa-facebook"></i></a>
-              <a class="social-twitter" href="https://twitter.com/chuckymagic"><i class="fa fa-twitter"></i></a>
-              <a class="social-instagram" href="https://www.instagram.com/chuckymagic/"><i class="fa fa-instagram"></i></a>
-              <a class="social-youtube" href="https://www.youtube.com/channel/UC0vvRCPV8yFDXLhtIaUCSvg?view_as=subscriber"><i class="fa fa-youtube"></i></a>
-              <a class="social-whatsapp" href="https://www.instagram.com/chuckymagic/"><i class="fa fa-whatsapp"></i></a>
+              <a class="social-facebook text-dark" href="https://www.facebook.com/thethemeio"><i class="fa fa-facebook"></i></a>
+              <a class="social-twitter text-dark" href="https://twitter.com/chuckymagic"><i class="fa fa-twitter"></i></a>
+              <a class="social-instagram text-dark " href="https://www.instagram.com/afterworkchills/"><i class="fa fa-instagram"></i></a>
+              <a class="social-youtube text-dark" href="https://www.youtube.com/channel/UC0vvRCPV8yFDXLhtIaUCSvg?view_as=subscriber"><i class="fa fa-youtube"></i></a>
+              <a class="social-whatsapp text-dark" href="https://www.instagram.com/afterworkchills/"><i class="fa fa-whatsapp"></i></a>
             </div>
           </div>
         </div>
-    </section><!-- /.topbar -->
+    </section> --}}
+    <!-- /.topbar -->
 
 
     <!-- Navbar -->
@@ -47,7 +48,7 @@
 
         <div class="navbar-left mr-4">
             <button class="navbar-toggler" type="button">&#9776;</button>
-            <a class="navbar-brand" href="{{route('welcome')}}">
+            <a class="navbar-brand" href="{{route('dashboard')}}">
             <img class="logo-dark" src="{{asset('img/awc-web-logo.png')}}" alt="logo">
             <img class="logo-light" src="{{asset('img/awc-web-logo.png')}}" alt="logo">
             </a>
@@ -55,8 +56,9 @@
 
         <section class="navbar-mobile">
             <nav class="nav nav-navbar mr-auto">
-            <a class="nav-link active" href="{{ route('welcome')}} ">Home</a>
-            <a class="nav-link" href="{{route('dashboard')}}">Events</a>
+                <a class="nav-link active" href="{{ route('dashboard')}} ">Home</a>
+                <a class="nav-link" href="{{route('dashboard.about')}}">About</a>
+                <a class="nav-link" href="{{route('dashboard')}}">Events</a>
             </nav>
 
         </section>
@@ -130,7 +132,7 @@
 
             <div class="col-md-6">
             <div class="nav nav-center">
-                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="{{route('dashboard.about')}}">About</a>
                 <a class="nav-link" href="#">Terms</a>
                 <a class="nav-link" href="#">FAQ</a>
                 <a class="nav-link" href="#">Policy</a>
