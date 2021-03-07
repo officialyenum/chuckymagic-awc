@@ -60,7 +60,7 @@ Route::middleware(['auth','verifyIsAdmin'])->group(function () {
     Route::post('users/{user}/make-super-admin', 'UsersController@makeSuperAdmin')->name('users.make-super-admin');
     Route::post('users/{user}/remove-super-admin', 'UsersController@removeSuperAdmin')->name('users.remove-super-admin');
 });
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
