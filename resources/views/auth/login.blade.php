@@ -12,14 +12,14 @@
       <div class="row">
         <form method="POST" action="{{ route('login') }}" class="col-11 col-md-6 col-xl-5 mx-auto section-dialog bg-gray p-5 p-md-7">
             @csrf
-            <label for="email" class="col-md-4 col-form-label text-md-left">{{ __('Email') }}</label>
+            <label for="email" class="col-md-4 col-form-label text-md-left">{{ __('Username') }}</label>
 
             <div class="form-group input-group input-group-lg">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-envelope-o fa-fw"></i></span>
                     </div>
-                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                @error('email')
+                <input id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
+                @error('username')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

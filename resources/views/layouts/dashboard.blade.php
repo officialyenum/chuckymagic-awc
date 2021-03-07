@@ -63,7 +63,7 @@
 
         @auth
             <a id="navbarDropdown" class="nav-link dropdown-toggle btn btn-xs btn-round btn-success text-white" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                {{ Auth::user()->name }} <span class="arrow"></span>
+                {{ Auth::user()->username }} <span class="arrow"></span>
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -140,7 +140,7 @@
             </div>
 
             <div class="col-md-3 text-center text-md-right">
-            <small>Built by <a href="https://www.chuckymagic.com">Chuckymagic</a> for <a href="http://www.afterworkchills.com">AWC</a> <br>© 2020. All rights reserved.</small>
+            <small>Built by <a href="https://www.yenum.dev">Yenum O.</a> for <a href="http://www.afterworkchills.com">AWC</a> <br>© 2020. All rights reserved.</small>
             </div>
 
         </div>

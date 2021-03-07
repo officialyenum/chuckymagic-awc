@@ -15,7 +15,6 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $user = auth()->user;
         return view('admin.users.index')->with('users', User::all());
     }
 

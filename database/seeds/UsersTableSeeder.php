@@ -1,8 +1,8 @@
 <?php
 
 use App\Job;
-use App\Role;
 use App\User;
+use App\UserRole;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
@@ -14,19 +14,19 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        Role::create([
+        UserRole::create([
             'id' => 1,
             'name' => 'superadmin',
         ]);
-        Role::create([
+        UserRole::create([
             'id' => 2,
             'name' => 'admin',
         ]);
-        Role::create([
+        UserRole::create([
             'id' => 3,
             'name' => 'manager',
         ]);
-        Role::create([
+        UserRole::create([
             'id' => 4,
             'name' => 'member',
         ]);
@@ -45,7 +45,7 @@ class UsersTableSeeder extends Seeder
         if (!$user) {
             User::create([
                 'id' => 10000001,
-                'name' => 'Opone Yenum',
+                'username' => 'yenum',
                 'email' => 'oponechukwuyenum@gmail.com',
                 'role_id' => 1,
                 'job_id' => 1,
@@ -56,7 +56,7 @@ class UsersTableSeeder extends Seeder
         $user1 = User::where('email','mr.tunmise@gmail.com')->first();
         if (!$user1) {
             User::create([
-                'name' => 'Daniel Ebitunmise',
+                'username' => 'tunmise',
                 'email' => 'mr.tunmise@gmail.com',
                 'role_id' => 1,
                 'job_id' => 2,

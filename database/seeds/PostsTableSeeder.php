@@ -19,7 +19,7 @@ class PostsTableSeeder extends Seeder
     public function run()
     {
         $author1 = User::create([
-            'name' => 'Regina Alex',
+            'username' => 'beingreggy',
             'email' => 'reggyalex@yahoo.com',
             'role_id' => 2,
             'job_id' => 2,
@@ -27,7 +27,7 @@ class PostsTableSeeder extends Seeder
         ]);
 
         $author2 = User::create([
-            'name' => 'Wole Of Lagos',
+            'username' => 'woleoflagos',
             'email' => 'wole@lagosnomad.com',
             'role_id' => 2,
             'job_id' => 1,
@@ -35,7 +35,7 @@ class PostsTableSeeder extends Seeder
         ]);
 
         $author3 = User::create([
-            'name' => 'Oreofe Olurin',
+            'username' => 'oreos',
             'email' => 'oreofeolurin@gmail.com',
             'role_id' => 2,
             'job_id' => 1,
@@ -43,7 +43,7 @@ class PostsTableSeeder extends Seeder
         ]);
 
         $author4 = User::create([
-            'name' => 'Akintola Mobola',
+            'username' => 'mobola',
             'email' => 'mobolaakintola@gmail.com',
             'role_id' => 2,
             'job_id' => 2,
@@ -51,7 +51,7 @@ class PostsTableSeeder extends Seeder
         ]);
 
         $author5 = User::create([
-            'name' => 'Moyin Oke',
+            'username' => 'moyinoke',
             'email' => 'moyinoke@gmail.com',
             'role_id' => 2,
             'job_id' => 2,

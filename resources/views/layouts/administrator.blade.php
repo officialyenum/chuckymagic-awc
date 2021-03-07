@@ -56,19 +56,18 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                        <img src="https://infyom.com/images/logo/blue_logo_150x150.jpg"
+                        <img src="{{  $user->avatar ?? Gravatar::src($user->email)}}"
                             class="user-image img-circle elevation-2" alt="User Image">
-                        <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                        <span class="d-none d-md-inline">{{ Auth::user()->username }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- User image -->
                         <li class="user-header bg-primary">
-                            <img src="https://infyom.com/images/logo/blue_logo_150x150.jpg"
+                            <img src="{{  $user->avatar ?? Gravatar::src($user->email)}}"
                                 class="img-circle elevation-2"
                                 alt="User Image">
                             <p>
-                                {{ Auth::user()->name }}
-                                <small>Member since {{ Auth::user()->created_at->format('M. Y') }}</small>
+                                {{ Auth::user()->role->name }} since {{ Auth::user()->created_at->format('M. Y') }}</small>
                             </p>
                         </li>
                         <!-- Menu Footer-->
@@ -100,9 +99,9 @@
         <!-- Main Footer -->
         <footer class="main-footer">
             <div class="float-right d-none d-sm-block">
-                <b>Version</b> 1.0.2
+                <b>Version</b> 1.0.3
             </div>
-            <strong>Copyright &copy; 2020 <a href="https://awc.app">Afterworkchills</a>.</strong> All rights
+            <strong>Built by <a href="https://www.yenum.dev">Yenum O.</a> for <a href="http://www.afterworkchills.com">AWC</a> <br>© 2020.</strong> All rights
             reserved.
         </footer>
     </div>

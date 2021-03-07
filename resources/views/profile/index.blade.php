@@ -18,12 +18,12 @@
             <li class="breadcrumb-item active" aria-current="page">Profile</li>
             </ol>
         </nav>
-        @auth
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#headerImageId">
-                Edit Header Image
-            </button>
-        @endauth
+            @if (Auth::user()->id == $user->id)
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#headerImageId">
+                    Edit Header Image
+                </button>
+            @endif
         </div>
     </header><!-- /.header -->
 @endsection
@@ -62,18 +62,18 @@
                         <div class="text-center">
                             <img class="avatar" src="{{  $user->avatar ?? Gravatar::src($user->email)}}" alt="...">
                         </div>
-                        @auth
-                        <div class="text-center">
-                            <!-- Button trigger modal -->
-                            <i type="button" class="btn fas fa-pencil-alt ml-8" data-toggle="modal" data-target="#avatarImageId" aria-hidden="true"></i>
-                            {{-- <a name="" id="editHeader" class="btn btn-primary" href="#" role="button"></a> --}}
-                            {{-- <h1 class="display-4 text-white mb-6"><strong>{{$user->name}}</strong></h1> --}}
-                        </div>
-                        @endauth
+                        @if (Auth::user()->id == $user->id)
+                            <div class="text-center">
+                                <!-- Button trigger modal -->
+                                <i type="button" class="btn fas fa-pencil-alt ml-8" data-toggle="modal" data-target="#avatarImageId" aria-hidden="true"></i>
+                                {{-- <a name="" id="editHeader" class="btn btn-primary" href="#" role="button"></a> --}}
+                                {{-- <h1 class="display-4 text-white mb-6"><strong>{{$user->name}}</strong></h1> --}}
+                            </div>
+                        @endif
 
-                        <h3 class="profile-username text-center">{{$user->name}}</h3>
+                        <h3 class="profile-username text-center">{{$user->username}}</h3>
 
-                        <p class="text-muted text-center">{{$user->job->name}}</p>
+                        <p class="text-muted text-center">{{$user->job->name ?? ''}}</p>
                     </div>
                     <!-- /.card-body -->
                 </div>

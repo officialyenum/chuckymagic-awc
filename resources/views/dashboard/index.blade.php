@@ -52,7 +52,7 @@
                                         <h3 class="card-title fw-200"><a href="{{route('dashboard.show',$post->slug)}}">{{$post->title }}</a></h3>
                                         <div class="media align-items-center">
                                         <img class="avatar avatar-xs mr-3" src="{{ Gravatar::src($post->user->email)}}" alt="...">
-                                        <div class="media-body">By <a href="{{route('dashboard.profile',$post->user->id)}}">{{ $post->user->name }}</a></div>
+                                        <div class="media-body">By <a href="{{route('dashboard.profile',$post->user->id)}}">{{ $post->user->username }}</a></div>
                                         </div>
                                     </div>
                                 </div>

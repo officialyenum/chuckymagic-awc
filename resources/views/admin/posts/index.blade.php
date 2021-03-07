@@ -70,7 +70,7 @@
                                             <span class="badge badge-secondary-inverse mr-2">{{$tag->name}}</span>
                                             @endforeach
                                         </td>
-                                        <td>{{$post->user->name}}</td>
+                                        <td>{{$post->user->username}}</td>
                                         <td>{{$post->created_at->diffforhumans()}}</td>
                                         <div class="button-list">
                                             @if ($post->trashed())

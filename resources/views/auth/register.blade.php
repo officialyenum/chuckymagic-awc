@@ -12,13 +12,13 @@
         <div class="row">
             <form method="POST" action="{{ route('register') }}" class="col-11 col-md-6 col-xl-5 mx-auto section-dialog bg-gray p-5 p-md-7">
                 @csrf
-                <label for="name" class="col-md-4 col-form-label text-md-left">{{ __('Name') }}</label>
+                <label for="username" class="col-md-4 col-form-label text-md-left">{{ __('Username') }}</label>
                 <div class="form-group input-group input-group-lg">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-user fa-fw"></i></span>
                     </div>
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-                    @error('name')
+                    <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
+                    @error('username')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

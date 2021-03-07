@@ -154,7 +154,7 @@
                                         <img width="40px" height="40px" style="border-radius : 50%" src="{{ Gravatar::src($user->email)}}" alt="Avater">
                                     </td>
                                     <td>
-                                        {{ $user->name }}
+                                        {{ $user->username }}
                                     </td>
                                     <td>
                                         {{ $user->email }}
@@ -186,7 +186,7 @@
                                     </td>
                                     @endif
                                     @if ($user->isSuperAdmin())
-                                        @if ($user->name == auth()->user()->name)
+                                        @if ($user->username == auth()->user()->username)
                                         <td>
 
                                         </td>

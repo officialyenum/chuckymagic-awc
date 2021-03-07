@@ -55,7 +55,7 @@ class PostsController extends Controller
 
     public function profile(User $user)
     {
-        $user = auth()->user();
+        // $user = auth()->user();
         // dd($user,auth()->id());
         $posts = Post::all()->where('user_id',$user->id);
         return view('profile.index')
