@@ -10,22 +10,22 @@
         <canvas class="constellation" data-color="rgba(255,255,255,0.3)"></canvas>
         <div class="container text-center">
 
-          <div class="row">
+        <div class="row">
             <div class="col-lg-8 mt-10 mx-auto">
 
-              <h1>We <span class="text-primary" data-typing="Party, Network, Support, are a Family"></span></h1>
-              {{-- <p class="lead-2 mt-5">Browse through our upcoming events and RSVP</p> --}}
-              <p class="lead-2 mt-5">Site Still Under Construction</p>
+                <h1>We <span class="text-primary" data-typing="Party, Network, Support, are a Family"></span></h1>
+                {{-- <p class="lead-2 mt-5">Browse through our upcoming events and RSVP</p> --}}
+                <p class="lead-2 mt-5">Site Still Under Construction</p>
 
-              <hr class="w-60px my-7">
+                <hr class="w-60px my-7">
 
-              <a class="btn btn-lg btn-round btn-white" href="#dashboard">Browse</a>
+                <a class="btn btn-lg btn-round btn-white" href="#dashboard">Browse</a>
 
             </div>
-          </div>
+        </div>
 
         </div>
-      </header><!-- /.header -->
+    </header><!-- /.header -->
 @endsection
 
 

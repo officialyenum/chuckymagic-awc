@@ -134,7 +134,7 @@
                 <small>Welcome</small>
                 <h2>Get a Better Understanding</h2>
                 <hr>
-                <p class="lead">Holisticly implement fully tested process improvements rather than dynamic internal.</p>
+                <p class="lead">Connect and chill after work with work buddies.</p>
                 </header>
 
 
