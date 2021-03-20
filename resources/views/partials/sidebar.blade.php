@@ -55,7 +55,7 @@
     <hr>
 
     <h6 class="sidebar-title">About</h6>
-    <p class="small-3">This is a responsive, professional, and multipurpose Laravel, Software and WebApp Content Management System built by Opone Chukwuyenum.</p>
+    <p class="small-3">After Work Chills is a platform where people on different Career Paths, Personalities, Nationalities yet similar mindset can interact in harmony, network and support one another’s growth through socialization and recreation.</p>
 
 
     </div>
