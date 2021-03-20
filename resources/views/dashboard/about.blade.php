@@ -15,7 +15,7 @@
 
                 <h1>We <span class="text-primary" data-typing="Party, Network, Support, are a Family"></span></h1>
                 {{-- <p class="lead-2 mt-5">Browse through our upcoming events and RSVP</p> --}}
-                <p class="lead-2 mt-5">Site Still Under Construction</p>
+                <p class="lead-2 mt-5">Platform Still Under Construction</p>
 
                 <hr class="w-60px my-7">
 
