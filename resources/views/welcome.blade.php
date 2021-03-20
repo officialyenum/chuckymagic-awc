@@ -335,7 +335,7 @@
             | Signup
             |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
             !-->
-            <section class="section bg-gray text-center">
+            {{-- <section class="section bg-gray text-center">
             <div class="container">
 
                 <header class="section-header">
@@ -366,7 +366,7 @@
                 </div>
 
             </div>
-            </section>
+            </section> --}}
 
         </main>
 
