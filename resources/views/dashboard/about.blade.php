@@ -245,7 +245,7 @@
         | Signup
         |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
         !-->
-        <section id="signupsection" class="section bg-gray text-center">
+        {{-- <section id="signupsection" class="section bg-gray text-center">
             <div class="container">
 
                 <header class="section-header">
@@ -257,7 +257,7 @@
 
 
                 <div class="row">
-                    {{-- <form method="POST" action="{{ route('register') }}" class="col-11 col-md-6 col-xl-5 mx-auto section-dialog bg-gray p-5 p-md-7">
+                    <form method="POST" action="{{ route('register') }}" class="col-11 col-md-6 col-xl-5 mx-auto section-dialog bg-gray p-5 p-md-7">
                         @csrf
                         <label for="username" class="col-md-4 col-form-label text-md-left">{{ __('Username') }}</label>
                         <div class="form-group input-group input-group-lg">
@@ -271,9 +271,9 @@
                                 </span>
                             @enderror
                         </div>
-        
+
                         <label for="email" class="col-md-4 col-form-label text-md-left">{{ __('Email') }}</label>
-        
+
                         <div class="form-group input-group input-group-lg">
                             <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-envelope-o fa-fw"></i></span>
@@ -285,9 +285,9 @@
                                 </span>
                             @enderror
                         </div>
-        
+
                         <label for="password" class="col-md-4 col-form-label text-md-left">{{ __('Password') }}</label>
-        
+
                         <div class="form-group input-group input-group-lg">
                             <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-key fa-fw"></i></span>
@@ -299,16 +299,16 @@
                                 </span>
                             @enderror
                         </div>
-        
+
                         <label for="password-confirm" class="col-md-4 col-form-label text-md-left">{{ __('Confirm Password') }}</label>
-        
+
                         <div class="form-group input-group input-group-lg">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-key fa-fw"></i></span>
                             </div>
                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                         </div>
-        
+
                         <div class="row">
                             <div class="col-8">
                                 <div class="icheck-primary">
@@ -324,7 +324,7 @@
                             </div>
                             <!-- /.col -->
                         </div>
-                    </form> --}}
+                    </form>
                     <form method="POST" action="{{ route('register') }}" class="col-md-4 col-xl-4 mx-auto input-border">
                         @csrf
                         <div class="form-group">
@@ -371,13 +371,13 @@
                             <button type="submit" class="btn btn-block btn-lg btn-success">{{ __('Register') }}</button>
                         </div>
 
-                        {{-- <button class="btn btn-block btn-xl btn-success">Sign up</button>
-                        <p class="small mt-3 opacity-70">or use your <a href="#">Facebook account</a></p> --}}
+                        <button class="btn btn-block btn-xl btn-success">Sign up</button>
+                        <p class="small mt-3 opacity-70">or use your <a href="#">Facebook account</a></p>
                     </form>
                 </div>
 
             </div>
-        </section>
+        </section> --}}
 
     </main>
 @endsection
