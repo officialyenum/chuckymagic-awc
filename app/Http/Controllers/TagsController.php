@@ -6,6 +6,7 @@ use App\Http\Requests\Tags\CreateTagsRequest;
 use App\Http\Requests\Tags\UpdateTagsRequest;
 use App\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TagsController extends Controller
 {
@@ -16,7 +17,10 @@ class TagsController extends Controller
      */
     public function index()
     {
-        return view('admin.tags.index')->with('tags', Tag::all());
+        $user = Auth::user();
+        return view('admin.tags.index')
+            ->with('user',$user)
+            ->with('tags', Tag::all());
     }
 
     /**

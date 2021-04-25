@@ -371,7 +371,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" onclick="createPost('createPostForm')">Add Post</button>
+                    <button id="postButton" type="submit" class="btn btn-success">Add Post</button>
                 </div>
                 <div class="lock-modal"></div>
                 <div class="loading-circle"></div>
@@ -385,10 +385,6 @@
 @endsection
 @section('third_party_scripts')
 
-    <!-- include summernote /js -->
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-    <!-- Select2 -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.js"></script> --}}
     {{-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> --}}
@@ -451,17 +447,27 @@
         });
     </script>
     <script>
-        function createPost(formId) {
-            var form = document.getElementById(formId)
-            console.log(form);
+        var btn = document.getElementById('postButton');
+        btn.onclick = function process() {
+            var form = document.getElementById('createPostForm');
             form.style.display = 'none';
             var processing = document.createElement('span');
-            processing.appendChild(image);
+            // processing.appendChild(image);
             processing.appendChild(document.createTextNode('processing ...'));
             form.parentNode.insertBefore(processing, form);
-            form.submit();
             $("#overlay, #PleaseWaitCreate").show();
         }
+        // function createPost(formId) {
+        //     var form = document.getElementById(formId)
+        //     console.log(form);
+        //     form.style.display = 'none';
+        //     var processing = document.createElement('span');
+        //     processing.appendChild(image);
+        //     processing.appendChild(document.createTextNode('processing ...'));
+        //     form.parentNode.insertBefore(processing, form);
+        //     form.submit();
+        //     $("#overlay, #PleaseWaitCreate").show();
+        // }
 
         function updatePost(formId, pleaseWaitEdit) {
             console.log(formId);

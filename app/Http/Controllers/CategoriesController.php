@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Requests\Categories\CreateCategoriesRequest;
 use App\Http\Requests\Categories\UpdateCategoriesRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoriesController extends Controller
 {
@@ -16,7 +17,10 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        return view('admin.categories.index')->with('categories', Category::all());
+        $user = Auth::user();
+        return view('admin.categories.index')
+            ->with('user',$user)
+            ->with('categories', Category::all());
     }
 
     /**

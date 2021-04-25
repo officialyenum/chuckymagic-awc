@@ -54,17 +54,33 @@ class PostsController extends Controller
      */
     public function store(CreatePostsRequest $request)
     {
-        $image = $request->file('image')->store(
-            'posts',
-            's3'
-        );
+        // dd($request->file('image')->getClientOriginalExtension(),time());
+        $image = $request->file('image');
+        $imageFileName = $image->getClientOriginalName();
+        $s3 = Storage::disk('s3');
+        $filePath = '/awc/uploads/'.time().$imageFileName;
+
+        $s3->put($filePath, file_get_contents($image), 'public');
+        // $image = $request->file('image')->store(
+        //     'posts',
+        //     's3'
+        // );
+        $media = new Media;
+        $media->mimeType = $request->file('image')->getMimeType();
+        $media->image = $request->file('image')->getClientOriginalName();
+        $media->url = $s3->url($filePath);
         //set Image Visibility private
         //Storage::disk('s3')->setVisibility($image,'private');
         //set Image Visibility public
-        //Storage::disk('s3')->setVisibility($image,'public');// create the post
+        // Storage::disk('s3')->setVisibility($image,'public');// create the post
+        $slug = str_slug($request->title);
+        $slugExists = Post::where('slug', '=' ,str_slug($request->title))->exists();
+        if($slugExists){
+            $slug = str_slug($request->title) . str_random(3);
+        }
         $post = Post::Create([
             'title' => $request->title,
-            'slug' => str_slug($request->title),
+            'slug' => $slug,
             'description'=> $request->description,
             'content' => 'no content',
             'published_at' => Carbon::parse($request->published_at),
@@ -72,8 +88,12 @@ class PostsController extends Controller
             'category_id' => $request->category,
             'user_id' => auth()->user()->id,
             'image' => basename($image),
-            'imageUrl' => Storage::disk('s3')->url($image)
+            'imageUrl' => $s3->url($filePath)
         ]);
+        $post->save();
+        $media->post_id = $post->id;
+        $media->user_id = Auth::id();
+        $media->save();
 
         // upload the image
         $detail = $request->content;
@@ -87,16 +107,20 @@ class PostsController extends Controller
             if (preg_match('/data:image/', $src)) {
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
                 $mimeType = $groups['mime'];
-                $path = '/posts/' . uniqid('', true) . '.' . $mimeType;
-                Storage::disk('s3')->put($path, file_get_contents($src));
-                $image->removeAttribute('src');
-                $image->setAttribute('src', Storage::disk('s3')->url($path));
-                $media = new Media;
-                $media->mimeType = $mimeType;
-                $media->image = $path;
-                $media->url = Storage::disk('s3')->url($path);
-                $media->post_id = $post->id;
-                $media->save();
+                $path = '/awc/uploads/'.time() .'/' . uniqid('', true) . '.' . $mimeType;
+                $pathExists = Media::where('url', '=' ,$path)->exists();
+                if(!$pathExists){
+                    $s3->put($path, file_get_contents($src), 'public');
+                    $image->removeAttribute('src');
+                    $image->setAttribute('src', Storage::disk('s3')->url($path));
+                    $contentMedia = new Media;
+                    $contentMedia->mimeType = $mimeType;
+                    $contentMedia->image = $path;
+                    $contentMedia->url = $s3->url($path);
+                    $contentMedia->post_id = $post->id;
+                    $contentMedia->user_id = Auth::id();
+                    $contentMedia->save();
+                }
             }
         }
 
