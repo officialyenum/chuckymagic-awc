@@ -9,7 +9,7 @@
             @if (auth()->user()->isSuperAdmin())
                 @if ($users->count() > 0)
                     <div class="table-responsive">
-                        <table class="table table-striped table-sm">
+                        <table id="userTable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th scope="row">#</th>
@@ -250,4 +250,20 @@
 
 
 
+@endsection
+
+@section('third_party_scripts')
+<script>
+    $(function () {
+        $('#userTable').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>
 @endsection

@@ -112,9 +112,7 @@
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-    $.widget.bridge('uibutton', $.ui.button)
-</script>
+
 <!-- Bootstrap 4 -->
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- ChartJS -->
@@ -152,8 +150,31 @@
 <script src="{{ asset('dist/js/pages/dashboard.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dist/js/demo.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+    var errors = @json($errors->all());
+    var message = "{{ session()->has('success') }}";
+    console.log("{{ session()->has('success') }}");
+    if (message) {
+        Swal.fire({
+            icon: 'success',
+            title: "{{ session()->get('success') }}",
+            showConfirmButton: false,
+            timer: 3000
+        })
+    }
+    console.log(message);
+    if (errors.length > 0) {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: errors[0],
+            showConfirmButton: false,
+            timer: 4000
+        })
+    }
+</script>
 @yield('third_party_scripts')
 
 @stack('page_scripts')

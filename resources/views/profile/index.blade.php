@@ -4,6 +4,22 @@
    AWC
 @endsection
 
+@section('third_party_stylesheets')
+    <!-- include summernote css -->
+    <style>
+    .modal-body {
+        max-height: calc(100vh - 210px);
+        overflow-y: auto;
+    }
+    </style>
+    {{-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet"> --}}
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    {{-- <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet"/> --}}
+
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.css"> --}}
+@endsection
+
 @section('header')
     <!-- Header -->
     @if (isset($user->header_image))
@@ -22,6 +38,10 @@
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#headerImageId">
                     Edit Header Image
+                </button>
+
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#editUser">
+                    Edit Profile
                 </button>
             @endif
         </div>
@@ -66,6 +86,8 @@
                             <div class="text-center">
                                 <!-- Button trigger modal -->
                                 <i type="button" class="btn fas fa-pencil-alt ml-8" data-toggle="modal" data-target="#avatarImageId" aria-hidden="true"></i>
+
+
                                 {{-- <a name="" id="editHeader" class="btn btn-primary" href="#" role="button"></a> --}}
                                 {{-- <h1 class="display-4 text-white mb-6"><strong>{{$user->name}}</strong></h1> --}}
                             </div>
@@ -349,32 +371,50 @@
                                 <div class="form-group row">
                                 <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" id="inputName" placeholder="Name" value="">
+                                    <input type="email" class="form-control" id="inputName" placeholder="Name" value="{{ $user->username }}">
                                 </div>
                                 </div>
                                 <div class="form-group row">
                                 <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                    <input type="email" class="form-control" id="inputEmail" placeholder="Email" value="{{ $user->email }}">
                                 </div>
                                 </div>
                                 <div class="form-group row">
-                                <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
+                                <label for="inputEducation" class="col-sm-2 col-form-label">Education</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                                    <input type="text" class="form-control" id="inputEducation" placeholder="Education" value="{{ $user->education ?? " " }}">
                                 </div>
                                 </div>
                                 <div class="form-group row">
-                                <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                                <label for="inputLocation" class="col-sm-2 col-form-label">Location</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                                    <textarea class="form-control" id="inputLocation" placeholder="Location"></textarea>
                                 </div>
                                 </div>
                                 <div class="form-group row">
-                                <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                                </div>
+                                    <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                                    {{-- <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                                    </div> --}}
+                                    @if ($user->skills->count() > 0)
+                                        <div class="form-group">
+                                            <label for="tags">Skills</label>
+                                            <select name="skills[]" id="skills" class="form-control tags-selector" multiple="multiple" data-placeholder="Select Features" style="width: 100%;">
+                                                @foreach ($user->skills as $skill)
+                                                    <option value="{{ $tag->id }}"
+                                                        @if (isset($user))
+                                                            @if ($user->hasTag($skill->id))
+                                                                selected
+                                                            @endif
+                                                        @endif
+                                                        >
+                                                        {{ $skill->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="form-group row">
                                 <div class="offset-sm-2 col-sm-10">
@@ -486,6 +526,9 @@
         </div>
     </div>
 
+
+    @include('modal.user')
+
     <script>
         $('#exampleModal').on('show.bs.modal', event => {
             var button = $(event.relatedTarget);
@@ -494,5 +537,13 @@
 
         });
     </script>
+@endsection
+
+@section('third_party_scripts')
+<!-- Select2 -->
+{{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script> --}}
+<script>
+    $('.skills-selector').select2();
+</script>
 @endsection
 

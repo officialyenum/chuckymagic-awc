@@ -1,42 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
 
-    <title>
-        @yield('title')
-    </title>
+        <title>
+            @yield('title')
+        </title>
 
-    <!-- Styles -->
-    <link href="{{ asset('css/page.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+        <!-- Styles -->
+        <link href="{{ asset('css/page.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
 
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" href="{{ asset('img/apple-touch-icon.png') }}">
-    <link rel="icon" href="{{ asset('img/favicon.png') }}">
-  </head>
+        <!-- Favicons -->
+        <link rel="apple-touch-icon" href="{{ asset('img/apple-touch-icon.png') }}">
+        <link rel="icon" href="{{ asset('img/favicon.png') }}">
+        <!-- Select2 -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    </head>
 
-  <body>
+    <body>
 
     <!-- Topbar -->
     {{-- <section class="topbar d-lg-flex position-static">
         <div class="container small-3">
-          <nav class="nav">
-          </nav>
-          <div class="col-6 col-lg-3 text-right order-lg-last">
-            <div class="social">
-              <a class="social-facebook text-dark" href="https://www.facebook.com/thethemeio"><i class="fa fa-facebook"></i></a>
-              <a class="social-twitter text-dark" href="https://twitter.com/chuckymagic"><i class="fa fa-twitter"></i></a>
-              <a class="social-instagram text-dark " href="https://www.instagram.com/afterworkchills/"><i class="fa fa-instagram"></i></a>
-              <a class="social-youtube text-dark" href="https://www.youtube.com/channel/UC0vvRCPV8yFDXLhtIaUCSvg?view_as=subscriber"><i class="fa fa-youtube"></i></a>
-              <a class="social-whatsapp text-dark" href="https://www.instagram.com/afterworkchills/"><i class="fa fa-whatsapp"></i></a>
+            <nav class="nav">
+            </nav>
+            <div class="col-6 col-lg-3 text-right order-lg-last">
+                <div class="social">
+                <a class="social-facebook text-dark" href="https://www.facebook.com/thethemeio"><i class="fa fa-facebook"></i></a>
+                <a class="social-twitter text-dark" href="https://twitter.com/chuckymagic"><i class="fa fa-twitter"></i></a>
+                <a class="social-instagram text-dark " href="https://www.instagram.com/afterworkchills/"><i class="fa fa-instagram"></i></a>
+                <a class="social-youtube text-dark" href="https://www.youtube.com/channel/UC0vvRCPV8yFDXLhtIaUCSvg?view_as=subscriber"><i class="fa fa-youtube"></i></a>
+                <a class="social-whatsapp text-dark" href="https://www.instagram.com/afterworkchills/"><i class="fa fa-whatsapp"></i></a>
+                </div>
             </div>
-          </div>
         </div>
     </section> --}}
     <!-- /.topbar -->
@@ -150,7 +152,6 @@
     </footer>
     <!-- /.footer -->
 
-
     <!-- Scripts -->
     <script>
         let updateAvatarRoute = "{{ route('admin.dashboard') }}";
@@ -162,12 +163,15 @@
     </script>
     <script src="{{asset('js/page.min.js')}}"></script>
     <script src="{{asset('js/script.js')}}"></script>
-    <script type="text/javascript"  src="{{asset('js/function.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/function.js')}}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- Material Design -->
     <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-540433b5029e06e8"></script>
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
-  </body>
+    @yield('third_party_scripts')
+    </body>
 </html>

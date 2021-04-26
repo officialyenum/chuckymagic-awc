@@ -27,11 +27,11 @@
                     </div>
                 </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Post Type</h3>
-                </div>
-                <!-- /.card-header -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Post Type</h3>
+                    </div>
+                    <!-- /.card-header -->
                     <div class="card-body">
                         <table id="categoryTable" class="table table-bordered table-striped">
                             <thead>
@@ -84,7 +84,12 @@
                                                             <div class="modal-body">
                                                                 <div class="form-group">
                                                                     <label for="name">Name</label>
-                                                                <input type="text" class="form-control" name="name" value="{{ $category->name}}">
+                                                                    <input type="text" class="form-control" name="name" value="{{ $category->name}}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="description">Description</label>
+                                                                    <textarea name="description" id="description" cols="5" rows="5" class="form-control">{{ $category->description}}</textarea>
+                                                                    {{-- <input type="text" class="form-control" name="description" value="{{ $tag->description}}"> --}}
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer justify-content-between">
@@ -108,7 +113,7 @@
                             </tfoot>
                         </table>
                     </div>
-                <!-- /.card-body -->
+                    <!-- /.card-body -->
                 </div>
             </div>
         </div>
@@ -161,7 +166,11 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">Name</label>
-                        <input type="text" class="form-control" name="name" value="">
+                            <input type="text" class="form-control" name="name" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea name="description" id="description" cols="5" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -191,14 +200,14 @@
         });
     });
 </script>
-    <script>
-        function handleDelete(id) {
-            var form = document.getElementById('deleteCategoryForm')
-            form.action = '/categories/' + id
-            console.log('deleting', form);
+<script>
+    function handleDelete(id) {
+        var form = document.getElementById('deleteCategoryForm')
+        form.action = '/categories/' + id
+        console.log('deleting', form);
 
-            $('#deleteModal').modal('show')
-        }
-    </script>
+        $('#deleteModal').modal('show')
+    }
+</script>
 
 @endsection

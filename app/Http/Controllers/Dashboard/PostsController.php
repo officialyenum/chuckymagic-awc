@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Dashboard;
 use App\Category;
 use App\Comment;
 use App\Http\Controllers\Controller;
+use App\Job;
 use App\Post;
+use App\Skill;
 use App\Tag;
 use App\User;
 use Illuminate\Http\Request;
@@ -60,11 +62,16 @@ class PostsController extends Controller
 
     public function profile(User $user)
     {
-        // $user = auth()->user();
+        $user = auth()->user();
         // dd($user,auth()->id());
         $posts = Post::all()->where('user_id',$user->id);
+        $jobs = Job::all();
+        $skills = Skill::all();
+        // dd($skills);
         return view('profile.index')
             ->with('user', $user)
-            ->with('posts', $posts);
+            ->with('posts', $posts)
+            ->with('jobs', $jobs)
+            ->with('skills',$skills);
     }
 }

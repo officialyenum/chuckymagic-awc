@@ -2,76 +2,80 @@
 
 @section('content')
     <div class="d-flex justify-content-end mb-2">
-        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#createTag">
-            Create Tag
+        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#createSkill">
+            Create Skill
         </button>
-        {{-- <a href="{{ route('tags.create')}}" class="btn btn-success float-right my-2">Add Tag </a> --}}
+        {{-- <a href="{{ route('skills.create')}}" class="btn btn-success float-right my-2">Add Skill </a> --}}
     </div>
     <div class="card card-default">
         <div class="card-header">
-            Tags
+            Skill
         </div>
         <div class="card-body">
-            @if ($tags->count() > 0)
-            <table id="tagTable" class="table table-bordered table-striped">
+            @if ($skills->count() > 0)
+            <table id="skillTable" class="table table-bordered table-striped">
                     <thead>
                         <th>S/N</th>
                         <th>Name</th>
-                        <th>Posts Count</th>
+                        <th>Users</th>
+                        <th>Description</th>
                         <th></th>
                         <th></th>
                     </thead>
                     <tbody>
-                        @foreach ($tags as $tag)
+                        @foreach ($skills as $skill)
                             <tr>
                                 <td>
-                                    {{ $tag->id }}
+                                    {{ $skill->id }}
                                 </td>
                                 <td>
-                                    {{ $tag->name }}
+                                    {{ $skill->name }}
                                 </td>
                                 <td>
-                                    {{ $tag->posts->count() }}
+                                    {{ $skill->users->count() }}
+                                </td>
+                                <td>
+                                    {{ $skill->description }}
                                 </td>
                                 <td class="text-center">
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editTag-{{$tag->id}}">
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editSkill-{{$skill->id}}">
                                         <i class="ri-pencil-line"></i>Edit
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="btn btn-danger float-right ml-1" onclick="handleDelete({{ $tag->id }})">Delete</button>
+                                    <button class="btn btn-danger float-right ml-1" onclick="handleDelete({{ $skill->id }})">Delete</button>
                                 </td>
                             </tr>
                             <!--Edit Modal -->
-                            <div class="modal fade" id="editTag-{{ $tag->id }}" tabindex="-1" role="dialog" aria-labelledby="editTagLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                            <div class="modal fade" id="editSkill-{{ $skill->id }}" tabindex="-1" role="dialog" aria-labelledby="editSkillLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
                                 <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Update Tag</h5>
+                                                    <h5 class="modal-title">Update Skill</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
 
                                                 @include('partials.errors')
-                                                <form action="{{ route('tags.update',$tag->id)}}" method="POST">
+                                                <form action="{{ route('skills.update',$skill->id)}}" method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label for="name">Name</label>
-                                                            <input type="text" class="form-control" name="name" value="{{ $tag->name}}">
+                                                            <input type="text" class="form-control" name="name" value="{{ $skill->name}}">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="description">Description</label>
-                                                            <textarea name="description" id="description" cols="5" rows="5" class="form-control">{{ $tag->description}}</textarea>
-                                                            {{-- <input type="text" class="form-control" name="description" value="{{ $tag->description}}"> --}}
+                                                            <textarea name="description" id="description" cols="5" rows="5" class="form-control">{{ $skill->description}}</textarea>
+                                                            {{-- <input type="text" class="form-control" name="description" value="{{ $skill->description}}"> --}}
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer justify-content-between">
                                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-success">Update Tag</button>
+                                                        <button type="submit" class="btn btn-success">Update Skill</button>
                                                     </div>
                                                 </form>
                                     </div>
@@ -83,12 +87,12 @@
 
                 <div class="modal fade" id="deleteModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
-                    <form action="" method="POST" id="deleteTagForm">
+                    <form action="" method="POST" id="deleteSkillForm">
                             @csrf
                             @method('DELETE')
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Delete Tag</h5>
+                                <h5 class="modal-title" id="staticBackdropLabel">Delete Skill</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -107,22 +111,23 @@
                     </div>
                 </div>
             @else
-                <h3 class="text-center">No Tags Yet</h3>
+                <h3 class="text-center">No Skills Yet</h3>
             @endif
         </div>
     </div>
+
     <!-- Modal -->
-    <div class="modal fade" id="createTag" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="createTagLabel" aria-hidden="true">
+    <div class="modal fade" id="createSkill" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="createSkillLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Create Tag</h5>
+                            <h5 class="modal-title">Create Skill</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                         </div>
                         @include('partials.errors')
-                        <form action="{{ route('tags.store')}}" method="POST">
+                        <form action="{{ route('skills.store')}}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
@@ -136,7 +141,7 @@
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-success">Add Tag</button>
+                            <button type="submit" class="btn btn-success">Add Skill</button>
                         </div>
                         </form>
             </div>
@@ -147,7 +152,7 @@
 @section('third_party_scripts')
 <script>
     $(function () {
-        $('#tagTable').DataTable({
+        $('#skillTable').DataTable({
             "paging": true,
             "lengthChange": true,
             "searching": true,
@@ -160,8 +165,8 @@
 </script>
     <script>
         function handleDelete(id) {
-            var form = document.getElementById('deleteTagForm')
-            form.action = '/tags/' + id
+            var form = document.getElementById('deleteSkillForm')
+            form.action = '/skills/' + id
             console.log('deleting', form);
 
             $('#deleteModal').modal('show')

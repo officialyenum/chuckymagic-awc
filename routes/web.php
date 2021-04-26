@@ -31,6 +31,8 @@ Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile/{user}', [PostsController::class, 'profile'])->name('dashboard.profile');
+    Route::resource('skills', 'SkillsController');
+    Route::resource('jobs', 'JobsController');
     Route::resource('categories', 'CategoriesController');
     Route::resource('tags', 'TagsController');
     Route::resource('posts', 'PostsController');
