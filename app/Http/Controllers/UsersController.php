@@ -145,9 +145,8 @@ class UsersController extends Controller
         return view('users.edit')->with('user',auth()->user());
     }
 
-    public function update(UpdateProfileRequest $request)
+    public function update(UpdateProfileRequest $request, User $user)
     {
-        $user = auth()->user();
         $user->update([
             'username' => $request->username,
             'location' => $request->location,

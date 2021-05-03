@@ -136,7 +136,7 @@
 <!-- End Contentbar -->
 
 <!-- Modal -->
-@include('modal.post')
+@include('modal.user')
 
 
 

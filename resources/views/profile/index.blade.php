@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.profile')
 
 @section('title')
    AWC
@@ -35,13 +35,17 @@
             </ol>
         </nav>
             @if (Auth::user()->id == $user->id)
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#editUser">
+                    Edit Profile
+                </button>
+
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#headerImageId">
                     Edit Header Image
                 </button>
 
-                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#editUser">
-                    Edit Profile
+                <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#createPost">
+                    Create Post
                 </button>
             @endif
         </div>
@@ -528,22 +532,208 @@
 
 
     @include('modal.user')
+    <!--Create Post Modal -->
+    <div class="modal fade" id="createPost" data-toggle="modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="createPostLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title">Create Post</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
 
-    <script>
-        $('#exampleModal').on('show.bs.modal', event => {
-            var button = $(event.relatedTarget);
-            var modal = $(this);
-            // Use above variables to manipulate the DOM
+                <div id='PleaseWaitCreate' class="text-center" style="display: none"><img class="m-auto" src='https://media.giphy.com/media/feN0YJbVs0fwA/giphy.gif'/></div>
+                {{-- @include('partials.errors') --}}
+                <form id="createPostForm" action="{{ route('posts.store')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" class="form-control" name="title" id="title" value="">
+                            </div>
+                            <label for="image">Header Image</label>
+                            {{-- <div class="form-group">
+                                <label for="image">Header Image</label>
+                                <input type="file" class="custom-file-input form-control" name="image" id="image">
 
-        });
-    </script>
+                            </div> --}}
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="image" id="image" value="">
+                                <label class="custom-file-label" for="image"></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea name="description" id="description" cols="5" rows="5" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="content">Content</label>
+                                <textarea name="content" class="summernote"></textarea>
+                                {{-- @trix(\App\Post::class, 'content') --}}
+                                {{-- <label for="content">Content</label> --}}
+                                {{-- <input id="content" type="hidden" name="content" value="{{ isset($post) ? $post->content : ''}}"> --}}
+                                {{-- <trix-editor input="content"></trix-editor> --}}
+                            </div>
+                            {{-- <div class="form-group">
+                                <label for="published_at">Published At</label>
+                                <input type="text" class="form-control datetimepicker-input" name="published_at" id="published_at" value="">
+                            </div> --}}
+                            <div class="form-group">
+                                <label for="published_at">Published At</label>
+                                <div class="input-group date" id="published_at" data-target-input="nearest">
+                                    <input type="datetime" class="form-control datepicker datetimepicker-input" data-target="#published_at"  name="published_at" value=""/>
+                                    <div class="input-group-append" data-target="#published_at" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- <div class="form-group">
+                                <label for="event_day">Event Day</label>
+                                <input type="text" class="form-control" name="event_day" id="event_day" value="{{ isset($post) ? $post->event_day : ''}}">
+                            </div> --}}
+                            <div class="form-group">
+                                <label for="event_day">Event Day</label>
+                                <div class="input-group date" id="event_day" data-target-input="nearest">
+                                    <input type="datetime" class="form-control datepicker datetimepicker-input" data-target="#event_day" name="event_day" value=""/>
+                                    <div class="input-group-append" data-target="#event_day" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select name="category" id="category" class="form-control">
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}" selected>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @if ($tags->count() > 0)
+                                <div class="form-group">
+                                    <label for="tags">Tags</label>
+                                    <select name="tags[]" id="tags" class="form-control tags-selector" multiple="multiple" data-placeholder="Select Tags" style="width: 100%;">
+                                        @foreach ($tags as $tag)
+                                            <option value="{{ $tag->id }}"
+                                                @if (isset($post))
+                                                    @if ($post->hasTag($tag->id))
+                                                        selected
+                                                    @endif
+                                                @endif
+                                                >
+                                                {{ $tag->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endif
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button id="postButton" type="submit" class="btn btn-success">Add Post</button>
+                    </div>
+                    <div class="lock-modal"></div>
+                    <div class="loading-circle"></div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('third_party_scripts')
 <!-- Select2 -->
-{{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script> --}}
-<script>
-    $('.skills-selector').select2();
-</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script>
+    </script>
+    <script>
+        $(function () {
+            $('#postTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+            bsCustomFileInput.init();
+            $('.summernote').summernote({
+                tabsize: 2,
+                height: 300
+            });
+            //Date range picker
+            $('.datepicker').datetimepicker({
+                format: "yyyy-MM-dd HH:mm:ss"
+            });
+            $('.tags-selector').select2();
+            $('.skills-selector').select2();
+            $('.custom-file-input').change(function() {
+                var filename = $(this).val();
+                var lastIndex = filename.lastIndexOf("\\");
+                if (lastIndex >= 0) {
+                    filename = filename.substring(lastIndex + 1);
+                }
+                $('.custom-file-label').val(filename);
+            });
+            //Initialize Select2 Elements
+            // $('.tags-selector').select2({
+            //     theme: 'bootstrap4'
+            // })
+        });
+    </script>
+    <script>
+        var btn = document.getElementById('postButton');
+        btn.onclick = function process() {
+            var form = document.getElementById('createPostForm');
+            form.style.display = 'none';
+            var processing = document.createElement('span');
+            // processing.appendChild(image);
+            processing.appendChild(document.createTextNode('processing ...'));
+            form.parentNode.insertBefore(processing, form);
+            $("#overlay, #PleaseWaitCreate").show();
+        }
+        // function createPost(formId) {
+        //     var form = document.getElementById(formId)
+        //     console.log(form);
+        //     form.style.display = 'none';
+        //     var processing = document.createElement('span');
+        //     processing.appendChild(image);
+        //     processing.appendChild(document.createTextNode('processing ...'));
+        //     form.parentNode.insertBefore(processing, form);
+        //     form.submit();
+        //     $("#overlay, #PleaseWaitCreate").show();
+        // }
+
+        function updatePost(formId, pleaseWaitEdit) {
+            console.log(formId);
+            var form = document.getElementById(formId)
+            console.log(form);
+            form.style.display = 'none';
+            var processing = document.createElement('span');
+            processing.appendChild(image);
+            processing.appendChild(document.createTextNode('processing ...'));
+            form.parentNode.insertBefore(processing, form);
+            form.submit();
+            $(`#overlay, #${pleaseWaitEdit}`).show();
+        }
+        function enableButton(btnId) {
+            console.log(btnId);
+            document.getElementById(btnId).disabled = false;
+        }
+        function handleDelete(slug) {
+            var form = document.getElementById('deletePostForm')
+            form.action = 'posts/' + slug
+            console.log('deleting', form);
+
+            $('#deleteModal').modal('show')
+        }
+
+        /* function showPost(post) {
+            var post = post
+            console.log(post)
+            $('#postModal').val( post ).modal('show')
+        } */
+    </script>
 @endsection
 

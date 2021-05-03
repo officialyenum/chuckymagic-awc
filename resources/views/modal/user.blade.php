@@ -20,6 +20,14 @@
                                 <input type="text" class="form-control" name="username" id="editUsername" value="{{ $user->username}}">
                             </div>
                             <div class="form-group">
+                                <label for="location">Location</label>
+                                <input type="text" class="form-control" name="location" id="editLocation" value="{{ $user->location}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="education">Education</label>
+                                <input type="text" class="form-control" name="education" id="editEducation" value="{{ $user->education}}">
+                            </div>
+                            <div class="form-group">
                                 <label for="job">Jobs</label>
                                 <select name="job" id="job" class="form-control">
                                     @foreach ($jobs as $job)

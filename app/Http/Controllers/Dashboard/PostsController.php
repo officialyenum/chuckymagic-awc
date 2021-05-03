@@ -65,12 +65,16 @@ class PostsController extends Controller
         $user = auth()->user();
         // dd($user,auth()->id());
         $posts = Post::all()->where('user_id',$user->id);
+        $categories = Category::all();
+        $tags = Tag::all();
         $jobs = Job::all();
         $skills = Skill::all();
         // dd($skills);
         return view('profile.index')
             ->with('user', $user)
             ->with('posts', $posts)
+            ->with('categories', $categories)
+            ->with('tags', $tags)
             ->with('jobs', $jobs)
             ->with('skills',$skills);
     }
