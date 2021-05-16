@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Http\Requests\Posts\CreatePostsRequest;
 use App\Http\Requests\Posts\UpdatePostsRequest;
+use App\Job;
 use App\Media;
 use App\Post;
 use App\Tag;
@@ -31,7 +32,8 @@ class PostsController extends Controller
         return view('admin.posts.index')->with('posts', Post::orderBy('id', 'DESC')->paginate(10))
         ->with('user', Auth::user())
         ->with('categories', Category::all())
-        ->with('tags', Tag::all());
+        ->with('tags', Tag::all())
+        ->with('jobs', Job::all());
     }
 
     /**
