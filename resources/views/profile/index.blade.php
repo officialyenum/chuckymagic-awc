@@ -89,7 +89,7 @@
                         @if (Auth::user()->id == $user->id)
                             <div class="text-center">
                                 <!-- Button trigger modal -->
-                                <i type="button" class="btn fas fa-pencil-alt ml-8" data-toggle="modal" data-target="#avatarImageId" aria-hidden="true"></i>
+                                <i type="button" class="btn btn-primary fas fa-pencil-alt mb-4 ml-8" data-toggle="modal" data-target="#avatarImageId" aria-hidden="true"></i>
 
 
                                 {{-- <a name="" id="editHeader" class="btn btn-primary" href="#" role="button"></a> --}}

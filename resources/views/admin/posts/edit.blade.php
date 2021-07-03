@@ -129,7 +129,7 @@
                 onInit:function(){
                     $('body > .note-popover').hide();
                 }
-             },
+            },
             });
 
         })

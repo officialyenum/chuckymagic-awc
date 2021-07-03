@@ -161,7 +161,7 @@
                             </button>
                     </div>
                     @include('partials.errors')
-                    <form action="{{ route('categories.store')}}" method="POST">
+                <form action="{{ route('categories.store')}}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -177,7 +177,7 @@
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-success">Add Category</button>
                     </div>
-                    </form>
+                </form>
         </div>
     </div>
 </div>
