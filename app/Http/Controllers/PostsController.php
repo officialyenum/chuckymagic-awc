@@ -287,7 +287,8 @@ class PostsController extends Controller
             ->with('posts',$trashed)
             ->with('user', Auth::user())
             ->with('categories', Category::all())
-            ->with('tags', Tag::all());
+            ->with('tags', Tag::all())
+            ->with('jobs', Job::all());
     }
 
     public function restore($slug)
