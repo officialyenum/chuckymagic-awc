@@ -8,14 +8,14 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2.5|^8.0",
+        "php": "^7.4|^8.0",
         "aws/aws-sdk-php": "^3.137",
-        "doctrine/inflector": "1.3",
+        "doctrine/inflector": "2.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
-        "infyomlabs/laravel-ui-adminlte": "^2.0",
-        "laravel/framework": "^7.0",
+        "infyomlabs/laravel-ui-adminlte": "^3.2.0",
+        "laravel/framework": "^8.0",
         "laravel/helpers": "^1.2",
         "laravel/tinker": "^2.0",
         "league/flysystem-aws-s3-v3": "^1.0",
@@ -24,7 +24,7 @@
     "require-dev": {
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.9.1",
-        "laravel/ui": "^2.0",
+        "laravel/ui": "^3.0",
         "mockery/mockery": "^1.3.1",
         "nunomaduro/collision": "^4.1",
         "phpunit/phpunit": "^8.5"
